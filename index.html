@@ -1,0 +1,2184 @@
+<!doctype html>
+<html lang="es-VE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PromoYa · Las promos de comida de tu ciudad</title>
+<meta name="description" content="Todas las promos de comida de tu ciudad en una sola app: combos, 2×1 y descuentos de hoy, con la carta de cada local. Gratis para la gente y sin comisión para los locales.">
+<meta name="theme-color" content="#130C08">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_VE">
+<meta property="og:title" content="PromoYa · Las promos de comida de tu ciudad">
+<meta property="og:description" content="Combos, 2×1 y descuentos de hoy en una sola app. Pides con un código o por WhatsApp.">
+<meta property="og:image" content="assets/img/modelo-1400.webp">
+<link rel="icon" href="assets/marca/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/marca/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/Fredoka_wght_700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Nunito_wght_800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/modelo-2600.webp" imagesrcset="assets/img/modelo-1400.webp 1400w, assets/img/modelo-2600.webp 2600w" imagesizes="(max-width: 767px) 125vw, 92vw">
+<style>
+@font-face{font-family:"Fredoka";font-weight:600;font-display:swap;src:url(assets/fonts/Fredoka_wght_600.woff2) format("woff2")}
+@font-face{font-family:"Fredoka";font-weight:700;font-display:swap;src:url(assets/fonts/Fredoka_wght_700.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:600;font-display:swap;src:url(assets/fonts/Nunito_wght_600.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:800;font-display:swap;src:url(assets/fonts/Nunito_wght_800.woff2) format("woff2")}
+@font-face{font-family:"Nunito";font-weight:900;font-display:swap;src:url(assets/fonts/Nunito_wght_900.woff2) format("woff2")}
+
+/* Marca PromoYa v3: naranja 60 · tinta y crema 30 · amarillo 10 */
+:root{
+  --naranja:#FF5A1F; --naranja-2:#E9440F; --naranja-texto:#C8380A;
+  --tinta:#1C1510; --tinta-2:#2A211B;
+  --noche:#130C08; --noche-2:#0B0705; --hoja:#1A120D;
+  --crema:#FFF4EA; --crema-2:#F6E6D6;
+  --amarillo:#FFC43D; --verde:#1F9D55;
+  --f-titulo:"Fredoka","Nunito",system-ui,sans-serif;
+  --f-texto:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --curva:cubic-bezier(.2,.8,.2,1);
+  /* unidad de diseño: la página se pensó sobre 1507 px de ancho */
+  --u:calc(var(--vw,1vw) * 100 / 1507);
+  --side:calc(121 * var(--u));
+  --nav:max(64px, calc(84 * var(--u)));
+}
+@media (max-width:767px){
+  :root{ --u:calc(var(--vw,1vw) * 100 / 1300); --side:22px; --nav:60px; }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 12px)}
+body{margin:0;background:var(--noche);color:var(--crema);font:600 17px/1.55 var(--f-texto);overflow-x:clip;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video,canvas,svg{display:block;max-width:100%}
+img,video{height:auto}
+[hidden]{display:none!important}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.saltar{position:fixed;left:16px;top:-80px;z-index:200;background:var(--crema);color:var(--tinta);padding:12px 18px;border-radius:14px;font-weight:900;text-decoration:none;transition:top .2s}
+.saltar:focus{top:12px}
+:focus-visible{outline:3px solid var(--amarillo);outline-offset:3px;border-radius:10px}
+
+/* ── botones ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:54px;padding:0 1.55em;border-radius:999px;border:2px solid transparent;font:900 16px/1 var(--f-texto);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;transition:transform .3s var(--curva),background-color .25s,color .25s,border-color .25s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn--naranja{background:var(--naranja);color:var(--crema);box-shadow:0 14px 34px -14px rgba(255,90,31,.85)}
+.btn--naranja:hover{background:var(--naranja-2)}
+.btn--tinta{background:var(--tinta);color:var(--crema)}
+.btn--tinta:hover{background:#000}
+.btn--crema{background:var(--crema);color:var(--tinta)}
+.btn--borde{border-color:currentColor;background:transparent}
+.btn--borde:hover{background:rgba(255,244,234,.1)}
+.btn--wa{background:#1FA855;color:#fff}
+.btn--wa:hover{background:#178f47}
+.btn--chico{min-height:44px;padding:0 1.15em;font-size:15px}
+
+/* ── marco, reglas laterales y rótulos (como en la referencia) ── */
+.marco{position:absolute;inset:var(--marco-top,0) 0 0 0;pointer-events:none;z-index:1}
+.marco::before,.marco::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--regla,rgba(255,244,234,.5))}
+.marco::before{left:var(--side)}
+.marco::after{right:var(--side)}
+.rotulos{position:absolute;top:var(--marco-top,0);bottom:0;width:var(--side);pointer-events:none;z-index:2;color:var(--rotulo,currentColor)}
+.rotulos--izq{left:0}
+.rotulos--der{right:0}
+.rotulos span{position:absolute;left:50%;top:var(--y);transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;font:800 max(9px, calc(11 * var(--u)))/1 var(--f-texto);letter-spacing:.08em;text-transform:uppercase}
+.rotulos--der span{transform:translate(-50%,-50%) rotate(90deg)}
+@media (max-width:767px){ .rotulos{display:none} }
+
+/* grano de papel */
+.grano::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:var(--grano,.14);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── navegación ── */
+.nav{position:fixed;inset:0 0 auto 0;z-index:60;height:var(--nav);display:flex;align-items:center;gap:20px;padding:0 calc(var(--side) + 26 * var(--u));color:var(--crema);transition:background-color .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid rgba(255,244,234,.12)}
+.nav.es-flotante{background:rgba(19,12,8,.58);border-color:rgba(255,244,234,.1);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2)}
+.nav.es-solida{background:rgba(19,12,8,.8);border-color:rgba(255,244,234,.1);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3)}
+.nav__logo{display:block;width:clamp(124px, calc(168 * var(--u)), 178px);flex:none}
+.nav__logo img{width:100%;height:auto}
+.nav__enlaces{flex:1;display:flex;justify-content:center;gap:clamp(14px, calc(34 * var(--u)), 40px)}
+.nav__enlaces a{position:relative;text-decoration:none;font:900 clamp(12px, calc(14 * var(--u)), 15px)/1 var(--f-texto);letter-spacing:.07em;text-transform:uppercase;padding:10px 0;opacity:.92}
+.nav__enlaces a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:2px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .35s var(--curva)}
+.nav__enlaces a:hover::after,.nav__enlaces a[aria-current="true"]::after{transform:scaleX(1)}
+.nav__enlaces a[aria-current="true"]{color:var(--naranja);opacity:1}
+.nav__cta{flex:none}
+.nav .nav__cta{min-height:46px;padding:0 1.25em;font-size:15px;box-shadow:none}
+.nav__menu{display:none;flex:none;width:46px;height:46px;border-radius:14px;border:1px solid rgba(255,244,234,.12);background:var(--tinta-2);cursor:pointer;place-items:center}
+.nav__menu svg{width:22px;height:22px}
+@media (max-width:1100px){
+  .nav__enlaces{display:none}
+  .nav__menu{display:grid}
+  .nav{justify-content:space-between}
+  .nav__cta{margin-left:auto}
+}
+@media (max-width:767px){
+  .nav{padding:0 16px;gap:10px}
+  .nav .nav__cta{min-height:42px;padding:0 1em;font-size:14px}
+  .nav__menu{width:42px;height:42px}
+}
+
+/* menú de pantalla completa (como el de la app) */
+.menu{position:fixed;inset:0;z-index:70;background:var(--noche);color:var(--crema);display:flex;flex-direction:column;padding:calc(var(--nav) + 20px) 24px 32px;opacity:0;visibility:hidden;transition:opacity .35s var(--curva),visibility .35s}
+.menu.abierto{opacity:1;visibility:visible}
+.menu__cerrar{position:absolute;top:9px;right:16px;width:42px;height:42px;border-radius:14px;border:0;background:var(--tinta-2);cursor:pointer;display:grid;place-items:center}
+.menu__cerrar svg{width:22px;height:22px}
+.menu nav{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.menu nav a{font:700 clamp(34px, 10vw, 52px)/1.12 var(--f-titulo);text-decoration:none;padding:6px 0;transform:translateY(14px);opacity:0;transition:transform .5s var(--curva),opacity .5s var(--curva),color .2s}
+.menu.abierto nav a{transform:none;opacity:1}
+.menu nav a:hover{color:var(--naranja)}
+.menu__pie{margin-top:auto;display:grid;gap:12px}
+.menu__logo{position:absolute;top:14px;left:18px;width:132px}
+
+/* ═══════════ 01 · INICIO ═══════════ */
+/* fondo negro como la app; la luz naranja va detrás de la chica (dentro de la cámara) para que el suéter no se pierda */
+.hero{position:relative;height:calc(1440 * var(--u));background:radial-gradient(70% 58% at 50% 56%, rgba(255,90,31,.14), rgba(255,90,31,0) 72%),var(--noche);color:var(--crema);overflow:hidden;isolation:isolate;--marco-top:var(--nav);--grano:.1;--regla:rgba(255,244,234,.16);--rotulo:rgba(255,244,234,.6)}
+/* abajo, la foto se funde con el negro (así no se ve el corte del suéter) */
+.hero::before{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(170 * var(--u));background:linear-gradient(180deg,rgba(19,12,8,0),var(--noche) 92%);z-index:5;pointer-events:none}
+.hero__pregunta{position:absolute;left:0;right:0;top:calc(140 * var(--u));z-index:5;text-align:center;font:600 calc(46 * var(--u))/1 var(--f-titulo);letter-spacing:.005em}
+.hero__pregunta span{display:inline-block}
+
+.titulo{position:absolute;inset:0;z-index:1;pointer-events:none}
+.titulo__linea{position:absolute;left:50%;transform:translateX(-50%);overflow:hidden;padding:calc(10 * var(--u)) 0}
+.titulo__linea--1{top:calc(206 * var(--u));width:calc(1060 * var(--u))}
+.titulo__linea--2{top:calc(426 * var(--u));width:calc(1150 * var(--u))}
+.titulo__linea svg{display:block;width:100%;overflow:visible}
+.titulo__linea--1 svg{height:calc(200 * var(--u))}
+.titulo__linea--2 svg{height:calc(250 * var(--u))}
+.titulo text{font-family:var(--f-titulo);font-weight:700;fill:var(--crema)}
+.titulo--contorno{z-index:3}
+.titulo--contorno text{fill:none;stroke:rgba(255,244,234,.72);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+
+.escena{position:absolute;left:50%;top:calc(54 * var(--u));width:calc(1386 * var(--u));aspect-ratio:1;transform:translateX(-50%);z-index:2;pointer-events:none}
+.escena--piezas{z-index:4}
+.escena--luz{z-index:0}
+.camara{position:absolute;inset:0;transform-origin:50% 30%;will-change:transform}
+.modelo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.modelo__luz{position:absolute;inset:0;background:radial-gradient(37% 42% at 51% 50%, rgba(255,128,64,.95) 0%, rgba(255,90,31,.8) 30%, rgba(233,68,15,.38) 62%, rgba(233,68,15,0) 100%)}
+/* la imagen trae 90 px de margen por lado sobre 700 px de silueta: por eso se sale un 12,857 % */
+.modelo__halo{position:absolute;left:-12.857%;top:-12.857%;width:125.714%;max-width:none;height:auto}
+.pieza{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform-origin:var(--o,50% 50%);opacity:0;will-change:transform,opacity}
+.pieza img{width:100%;height:auto;transform:rotate(var(--r,0deg));filter:drop-shadow(0 calc(22 * var(--u)) calc(26 * var(--u)) rgba(90,22,0,.35));animation:flotar var(--t,6s) ease-in-out var(--d,0s) infinite}
+@keyframes flotar{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-4%) rotate(calc(var(--r,0deg) + 3deg))}}
+.pieza--pin{--x:16%;--y:5%;--w:12%;--o:50% 100%;--r:-8deg;--d:-1s}
+.pieza--rayo{--x:72%;--y:2%;--w:10%;--o:50% 100%;--r:14deg;--d:-2.5s;--t:5s}
+.pieza--porcentaje{--x:2%;--y:19%;--w:15%;--r:-10deg;--d:-4s;--t:7s}
+.pieza--cupon{--x:72%;--y:21%;--w:18%;--o:0% 50%;--r:-12deg;--d:-3s}
+.pieza--arepa{--x:3%;--y:54%;--w:19%;--o:50% 70%;--r:6deg;--d:-1.5s;--t:6.5s}
+.pieza--chispa1{--x:63%;--y:14%;--w:4.6%;--d:-2s;--t:4s}
+.pieza--chispa2{--x:35%;--y:44%;--w:3.2%;--d:-.5s;--t:4.5s}
+.pieza--chispa1 img,.pieza--chispa2 img{filter:none}
+
+/* la lluvia se desvanece arriba, para no mezclarse con el logo y el menú */
+.chispas{--arriba:linear-gradient(180deg,transparent calc(var(--nav) - 10px),#000 calc(var(--nav) + 90px));position:absolute;left:50%;top:0;width:calc(1507 * var(--u));height:calc(1507 * var(--u));transform:translateX(-50%);z-index:5;pointer-events:none;opacity:.68;-webkit-mask-image:var(--arriba);mask-image:var(--arriba)}
+video.chispas{object-fit:cover;-webkit-mask-image:linear-gradient(90deg,#000 19%,transparent 25%,transparent 75%,#000 81%),var(--arriba);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 19%,transparent 25%,transparent 75%,#000 81%),var(--arriba);mask-composite:intersect}
+@media (max-width:1000px){ .chispas{opacity:.5} }
+.chispas[hidden]{display:none}
+
+.hero__pie{position:absolute;left:calc(var(--side) + 62 * var(--u));right:calc(var(--side) + 62 * var(--u));bottom:calc(84 * var(--u));z-index:6;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.vidrio{background:linear-gradient(180deg,rgba(28,21,16,.6),rgba(19,12,8,.74));border:1px solid rgba(255,244,234,.15);-webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25);box-shadow:0 30px 60px -28px rgba(40,10,0,.65)}
+.hero__intro{width:min(100%, calc(600 * var(--u)));min-width:380px;border-radius:30px;padding:26px 28px 28px}
+.hoy-chip{display:inline-flex;align-items:center;gap:8px;font:800 13px/1 var(--f-texto);letter-spacing:.06em;text-transform:uppercase;color:rgba(255,244,234,.8)}
+.hoy-chip i{width:8px;height:8px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px rgba(31,157,85,.25);animation:latido 2s ease-in-out infinite}
+@keyframes latido{50%{box-shadow:0 0 0 8px rgba(31,157,85,0)}}
+.hero__lead{margin-top:14px;font:700 clamp(26px, calc(36 * var(--u)), 40px)/1.08 var(--f-titulo)}
+.hero__lead em{font-style:normal;color:var(--naranja)}
+.hero__sub{margin-top:12px;color:rgba(255,244,234,.78);font-size:16px}
+.hero__botones{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px}
+.hero__botones .btn--borde{color:var(--crema)}
+.promo-card{width:calc(430 * var(--u));min-width:330px;border-radius:30px;padding:22px 22px 22px 24px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:8px 14px;text-decoration:none}
+.promo-card__kicker{grid-column:1/-1;font:800 12px/1 var(--f-texto);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,244,234,.6)}
+.relampago{display:inline-flex;align-items:center;gap:7px;width:max-content;max-width:100%;background:var(--amarillo);color:var(--tinta);border-radius:999px;padding:8px 14px;font:900 12.5px/1 var(--f-texto);letter-spacing:.07em;text-transform:uppercase;grid-column:1/-1}
+.relampago svg{width:13px;height:13px}
+.promo-card__titulo{font:700 clamp(30px, calc(44 * var(--u)), 46px)/.95 var(--f-titulo);margin-top:6px}
+.promo-card__titulo em{font-style:normal;color:var(--naranja);display:block}
+.promo-card__local{grid-column:1;font-size:14px;color:rgba(255,244,234,.75)}
+.promo-card__local b{color:var(--crema);font-weight:900}
+.promo-card__flecha{grid-row:3/5;grid-column:2;width:64px;height:64px;border-radius:20px;background:var(--naranja);display:grid;place-items:center;transition:transform .35s var(--curva)}
+.promo-card:hover .promo-card__flecha{transform:translateX(4px)}
+.promo-card__flecha svg{width:26px;height:26px}
+@media (max-width:1000px){
+  .promo-card{display:none}
+  .hero__intro{min-width:0;width:min(100%, 560px)}
+}
+@media (max-width:767px){
+  .hero{height:auto;padding-bottom:22px}
+  .hero::before{height:120px}
+  .hero__pregunta{top:74px;font-size:clamp(18px, 5vw, 22px)}
+  .titulo__linea{padding:4px 0}
+  .titulo__linea--1{top:98px;width:80vw}
+  .titulo__linea--2{top:calc(106px + 13vw);width:88vw}
+  .titulo__linea--1 svg{height:13vw}
+  .titulo__linea--2 svg{height:16.2vw}
+  /* la escena mide 136vw y se ve el centro: entran la hamburguesa y el teléfono completos */
+  .escena{top:calc(118px + 22vw);width:136vw}
+  .pieza--pin{--x:21%;--y:5%;--w:11%}
+  .pieza--rayo{--x:69%;--y:3%;--w:9%}
+  .pieza--porcentaje{--x:15%;--y:22%;--w:12%}
+  .pieza--cupon{--x:66%;--y:22%;--w:17%}
+  .pieza--arepa{--x:18%;--y:57%;--w:15%}
+  .pieza--chispa1{--x:61%;--y:15%}
+  .chispas{width:100%;height:100%;left:0;transform:none}
+  .hero__pie{position:relative;left:auto;right:auto;bottom:auto;margin:calc(118px + 22vw + 102vw) 16px 0;display:block}
+  .hero__intro{width:100%;padding:22px 20px;border-radius:26px}
+  .hero__lead{font-size:clamp(25px, 7vw, 30px)}
+  .hero__botones .btn{flex:1 1 auto}
+}
+
+/* ═══════════ secciones ═══════════ */
+.seccion{position:relative;overflow:clip;isolation:isolate}
+.crema{background:var(--crema);color:var(--tinta);--regla:rgba(255,90,31,.55);--rotulo:var(--naranja-texto);--grano:.1}
+.noche{background:var(--noche);color:var(--crema);--regla:rgba(255,244,234,.12);--rotulo:rgba(255,244,234,.55)}
+.naranja{background:var(--naranja);color:var(--tinta);--regla:rgba(255,244,234,.55);--rotulo:var(--crema);--grano:.12}
+.contenido{position:relative;z-index:3;padding-inline:calc(var(--side) + 70 * var(--u))}
+@media (max-width:767px){ .contenido{padding-inline:calc(var(--side) + 14px)} }
+.kicker{display:inline-flex;align-items:center;gap:10px;font:900 13px/1 var(--f-texto);letter-spacing:.1em;text-transform:uppercase}
+.kicker::before{content:"";width:22px;height:2px;border-radius:2px;background:currentColor}
+.titular{font:700 clamp(44px, calc(104 * var(--u)), 128px)/.92 var(--f-titulo);letter-spacing:-.01em}
+.titular em{font-style:normal;color:var(--naranja)}
+.bajada{max-width:620px;font-size:clamp(17px, calc(20 * var(--u)), 21px);line-height:1.5}
+.js .aparece{opacity:0;transform:translateY(28px);transition:opacity .9s var(--curva),transform .9s var(--curva);transition-delay:var(--retraso,0s)}
+.js .aparece.visible{opacity:1;transform:none}
+
+/* ═══════════ 02 · BENEFICIOS ═══════════ */
+.beneficios-sec{padding-bottom:calc(150 * var(--u))}
+.ficha{position:relative;z-index:3;min-height:calc(324 * var(--u));display:grid;grid-template-columns:calc(290 * var(--u)) 1fr;column-gap:calc(70 * var(--u));align-items:center;padding:calc(56 * var(--u)) calc(150 * var(--u)) calc(56 * var(--u)) calc(200 * var(--u));border-bottom:1px solid rgba(255,90,31,.55)}
+.etiqueta{display:block;font:700 max(10px, calc(10.5 * var(--u)))/1 var(--f-texto);letter-spacing:.1em;text-transform:uppercase;color:var(--naranja-texto)}
+.ficha__sello img{width:calc(232 * var(--u));min-width:150px;height:auto;margin-top:16px;animation:girar 40s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.ficha__datos{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(38 * var(--u)) calc(44 * var(--u))}
+.ficha__datos div{border-top:1px solid rgba(28,21,16,.16);padding-top:14px}
+.ficha__datos dt{font:800 max(10px, calc(11 * var(--u)))/1.2 var(--f-texto);letter-spacing:.1em;text-transform:uppercase;color:var(--naranja-texto)}
+.ficha__datos dd{margin-top:10px;font:700 clamp(19px, calc(31 * var(--u)), 33px)/1.02 var(--f-titulo);text-transform:uppercase}
+
+.intro{position:relative;z-index:3;margin:calc(110 * var(--u)) calc(134 * var(--u)) 0;border:1px solid rgba(255,90,31,.7);padding:calc(78 * var(--u)) calc(70 * var(--u)) calc(84 * var(--u));text-align:center}
+.intro__punto{position:absolute;width:calc(30 * var(--u));height:calc(30 * var(--u));min-width:14px;min-height:14px;border-radius:50%;background:var(--crema);border:1px solid rgba(255,90,31,.85);transform:translate(-50%,-50%)}
+.intro__punto:nth-of-type(1){left:0;top:0}
+.intro__punto:nth-of-type(2){left:100%;top:0}
+.intro__punto:nth-of-type(3){left:0;top:100%}
+.intro__punto:nth-of-type(4){left:100%;top:100%}
+.intro__icono{width:auto;height:calc(118 * var(--u));min-height:64px;margin:0 auto calc(34 * var(--u))}
+.declaracion{font:700 calc(50 * var(--u))/1 var(--f-titulo);text-transform:uppercase;letter-spacing:-.005em}
+.declaracion span{display:block}
+.declaracion em{font-style:normal;color:var(--naranja-texto)}
+.intro p{max-width:540px;margin:calc(34 * var(--u)) auto 0;font-size:clamp(16px, calc(19 * var(--u)), 19px);color:rgba(28,21,16,.78)}
+
+.beneficios{position:relative;z-index:3;margin-top:calc(120 * var(--u));display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px, calc(40 * var(--u)), 44px)}
+.beneficios__col{border-radius:34px;padding:clamp(24px, calc(44 * var(--u)), 48px)}
+.beneficios__col--gente{background:#fff;box-shadow:0 30px 60px -40px rgba(120,40,0,.35)}
+.beneficios__col--negocio{background:var(--tinta);color:var(--crema)}
+.beneficios__cabeza{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.beneficios__cabeza h3{font:700 clamp(34px, calc(56 * var(--u)), 60px)/.95 var(--f-titulo)}
+.beneficios__cabeza h3 em{font-style:normal;color:var(--naranja)}
+.beneficios__cabeza p{margin-top:8px;font-size:15px;opacity:.7}
+/* el cupón es acostado y el pin parado: los dos caben en el mismo cuadro para que se vean del mismo tamaño */
+.beneficios__cabeza img{flex:none;width:clamp(90px, calc(140 * var(--u)), 150px);height:clamp(90px, calc(140 * var(--u)), 150px);object-fit:contain;animation:flotar 6s ease-in-out infinite}
+.beneficios ul{margin-top:26px;display:grid;gap:4px}
+.beneficios li{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;padding:16px 0;border-top:1px solid rgba(28,21,16,.1)}
+.beneficios__col--negocio li{border-color:rgba(255,244,234,.1)}
+.beneficios li img{width:52px;height:52px;border-radius:16px;padding:9px;background:var(--crema)}
+.beneficios__col--negocio li img{background:var(--tinta-2)}
+.beneficios li b{display:block;font:600 21px/1.15 var(--f-titulo)}
+.beneficios li span{display:block;margin-top:4px;font-size:15.5px;line-height:1.45;opacity:.74}
+
+@media (max-width:1000px){
+  .ficha{grid-template-columns:1fr;padding:40px calc(var(--side) + 14px);row-gap:28px}
+  .ficha__sello{display:flex;align-items:center;gap:20px}
+  .ficha__sello img{margin-top:0;width:120px;min-width:0}
+  .ficha__datos{grid-template-columns:1fr 1fr;gap:22px 20px}
+  .beneficios{grid-template-columns:1fr}
+}
+@media (max-width:767px){
+  .beneficios-sec{padding-bottom:64px}
+  .intro{margin:56px 0 0;padding:52px 16px 40px}
+  .declaracion{font-size:min(4.4vw, 22px)}
+  .intro__icono{min-height:56px}
+  .beneficios{margin-top:48px}
+  .beneficios__col{border-radius:26px}
+}
+
+/* ═══════════ 03 · FUNCIONES ═══════════ */
+.funciones-sec{padding:calc(150 * var(--u)) 0 calc(140 * var(--u));background:radial-gradient(60% 40% at 82% 18%, rgba(255,90,31,.2), transparent 70%),radial-gradient(50% 40% at 10% 80%, rgba(255,90,31,.12), transparent 70%),var(--noche)}
+.cabeza{display:grid;gap:22px;max-width:980px}
+.cabeza .kicker{color:var(--naranja)}
+.cabeza .bajada{color:rgba(255,244,234,.75)}
+.recorrido{position:relative;display:grid;grid-template-columns:minmax(0,1fr) clamp(300px, calc(420 * var(--u)), 460px);gap:calc(90 * var(--u));margin-top:calc(60 * var(--u))}
+.funcion{min-height:72vh;display:flex;flex-direction:column;justify-content:center;padding:6vh 0;opacity:.32;transition:opacity .5s var(--curva)}
+.funcion.activa{opacity:1}
+.funcion__num{font:700 15px/1 var(--f-texto);letter-spacing:.12em;color:var(--naranja)}
+.funcion > h3{margin-top:14px;font:700 clamp(34px, calc(64 * var(--u)), 70px)/.98 var(--f-titulo);max-width:700px}
+.funcion > h3 em{font-style:normal;color:var(--naranja)}
+/* solo el texto de la función (no los textos de las pantallas dibujadas del teléfono) */
+.funcion > p{margin-top:18px;max-width:560px;color:rgba(255,244,234,.76);font-size:clamp(17px, calc(20 * var(--u)), 20px)}
+.etiquetas{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.etiquetas li{border:1px solid rgba(255,244,234,.2);border-radius:999px;padding:8px 14px;font:800 13px/1 var(--f-texto);color:rgba(255,244,234,.85)}
+.funcion__movil{display:none}
+.recorrido__fijo{position:relative}
+.recorrido__telefono{position:sticky;top:calc(50vh - min(43vh, 440px));display:grid;place-items:center;padding:20px 0}
+.halo{position:absolute;inset:-10% -30%;background:radial-gradient(closest-side, rgba(255,90,31,.42), transparent);filter:blur(10px);z-index:-1}
+.telefono{position:relative;width:min(100%, 39vh, 360px);border-radius:15% / 6.8%;background:#0b0705;padding:3.2%;box-shadow:0 0 0 1px rgba(255,244,234,.16), 0 0 0 7px #1d1612, 0 60px 90px -40px rgba(0,0,0,.9)}
+.telefono::before{content:"";position:absolute;top:4.6%;left:50%;width:27%;height:2.6%;border-radius:999px;background:#000;transform:translateX(-50%);z-index:3}
+.telefono__pantalla{position:relative;aspect-ratio:1080/2424;border-radius:12% / 5.4%;overflow:hidden;background:var(--noche);container-type:inline-size}
+.telefono__pantalla > *{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .6s var(--curva),transform .8s var(--curva)}
+.telefono__pantalla > .activa{opacity:1;transform:none}
+.flota-3d{position:absolute;width:clamp(70px, calc(120 * var(--u)), 130px);pointer-events:none;animation:flotar 7s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))}
+.flota-3d--a{left:-6%;top:12%;--r:-14deg}
+.flota-3d--b{right:-4%;bottom:14%;--r:10deg;animation-delay:-3s}
+/* por tu bolsillo: cuánto tienen y cuántos son */
+.bolsillo{margin-top:calc(110 * var(--u));display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:calc(64 * var(--u));align-items:start;background:linear-gradient(160deg,#23180f 0%,var(--hoja) 60%);border:1px solid rgba(255,244,234,.1);border-radius:38px;padding:clamp(24px, calc(56 * var(--u)), 60px)}
+.bolsillo .kicker{color:var(--amarillo)}
+.bolsillo__titulo{margin-top:18px;font:700 clamp(40px, calc(74 * var(--u)), 80px)/.94 var(--f-titulo)}
+.bolsillo__titulo em{display:block;font-style:normal;color:var(--naranja)}
+.bolsillo__texto > p{margin-top:18px;max-width:500px;color:rgba(255,244,234,.76);font-size:clamp(16.5px, calc(19 * var(--u)), 19px)}
+.escribe{margin-top:26px;display:flex;align-items:center;gap:8px;background:var(--noche);border:1.5px solid rgba(255,244,234,.16);border-radius:20px;padding:6px 6px 6px 16px;transition:border-color .25s,box-shadow .25s}
+.escribe:focus-within{border-color:var(--naranja);box-shadow:0 0 0 4px rgba(255,90,31,.2)}
+.escribe svg{width:20px;height:20px;flex:none;opacity:.6}
+.bolsillo > *{min-width:0}
+.escribe input{flex:1 1 0;width:0;min-width:0;background:transparent;border:0;padding:12px 0;font:800 16px/1.2 var(--f-texto)}
+.escribe input:focus{outline:none}
+.escribe input::placeholder{color:rgba(255,244,234,.38)}
+.ejemplos{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.ejemplos button{border:1px dashed rgba(255,244,234,.25);background:transparent;border-radius:999px;padding:9px 13px;font:800 13.5px/1 var(--f-texto);cursor:pointer;color:rgba(255,244,234,.82);transition:background-color .25s,border-color .25s}
+.ejemplos button:hover{background:rgba(255,244,234,.08);border-color:rgba(255,244,234,.5)}
+.entendi{margin-top:12px;min-height:1.4em;font-size:14px;color:var(--amarillo)}
+.bolsillo__app{background:var(--noche);border:1px solid rgba(255,244,234,.09);border-radius:30px;padding:clamp(18px, calc(28 * var(--u)), 30px);display:grid;gap:16px;box-shadow:0 40px 80px -50px rgba(255,90,31,.45)}
+.bolsillo__fila{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bolsillo__rotulo{font:900 12px/1 var(--f-texto);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,244,234,.62)}
+.monedas{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--tinta-2)}
+.monedas button{border:0;background:transparent;border-radius:999px;padding:9px 15px;font:900 14px/1 var(--f-texto);color:rgba(255,244,234,.75);cursor:pointer;transition:background-color .25s,color .25s}
+.monedas button[aria-checked="true"]{background:var(--naranja);color:var(--crema)}
+/* el monto grande es un campo: se toca y se escribe */
+.monto{display:flex;align-items:baseline;gap:.08em;min-width:0;padding-bottom:8px;border-bottom:2px dashed rgba(255,244,234,.2);font:700 clamp(46px, calc(76 * var(--u)), 80px)/1 var(--f-titulo);cursor:text;transition:border-color .25s}
+.monto:hover{border-bottom-color:rgba(255,244,234,.38)}
+.monto:focus-within{border-bottom-color:var(--naranja);border-bottom-style:solid}
+.monto__signo{font-size:.7em;color:rgba(255,244,234,.75)}
+.monto__signo:empty{display:none}
+.monto__campo{flex:0 1 auto;width:2.2ch;min-width:1ch;max-width:100%;padding:0;border:0;background:transparent;font:inherit;color:var(--crema);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.monto__campo:focus{outline:none}
+.monto__unidad{font:800 18px/1 var(--f-texto);color:rgba(255,244,234,.6)}
+.monto__unidad:empty{display:none}
+.monto__lapiz{flex:none;align-self:center;width:24px;height:24px;margin-left:auto;color:var(--naranja);opacity:.85}
+.monto__equiv{margin-top:-6px;font:800 13.5px/1.3 var(--f-texto);color:rgba(255,244,234,.55)}
+.monto__equiv.aviso{color:var(--amarillo)}
+.rango{-webkit-appearance:none;appearance:none;display:block;width:100%;height:12px;margin:6px 0 0;border-radius:99px;background:linear-gradient(90deg,var(--naranja) var(--p,49%),var(--tinta-2) var(--p,49%));cursor:pointer}
+.rango::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;border-radius:50%;background:var(--crema);border:7px solid var(--naranja);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.rango::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--crema);border:7px solid var(--naranja);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+.rango:focus-visible{outline:3px solid var(--amarillo);outline-offset:8px}
+.bolsillo__escala{display:flex;justify-content:space-between;font:800 12px/1 var(--f-texto);color:rgba(255,244,234,.42)}
+.personas{display:flex;flex-wrap:wrap;gap:8px}
+.personas button{border:1.5px solid rgba(255,244,234,.16);background:transparent;border-radius:999px;padding:11px 15px;font:900 14px/1 var(--f-texto);cursor:pointer;transition:background-color .25s,color .25s,border-color .25s}
+.personas button[aria-pressed="true"]{background:var(--crema);border-color:var(--crema);color:var(--tinta)}
+.contador{display:inline-flex;align-items:center;gap:6px;background:var(--tinta-2);border-radius:16px;padding:4px}
+.contador button{width:40px;height:40px;border:0;border-radius:12px;background:var(--noche);font:900 22px/1 var(--f-texto);cursor:pointer}
+.contador button:hover{background:var(--naranja)}
+.contador output{min-width:112px;text-align:center;font:700 18px/1 var(--f-titulo)}
+.bolsillo__resumen{font:700 clamp(19px, calc(24 * var(--u)), 24px)/1.15 var(--f-titulo);border-top:1px solid rgba(255,244,234,.1);padding-top:16px}
+.bolsillo__resumen em{font-style:normal;color:var(--naranja)}
+.sugerencias{display:grid;gap:8px}
+.sugerencia{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--hoja);border:1px solid rgba(255,244,234,.07);border-radius:18px;padding:12px 14px;animation:entra .45s var(--curva) both;animation-delay:calc(var(--i,0) * 60ms)}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}}
+.sugerencia > i{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font:700 15px/1 var(--f-titulo);font-style:normal;color:var(--tinta);background:var(--c,var(--naranja))}
+.sugerencia b{display:block;font:800 15px/1.25 var(--f-texto)}
+.sugerencia span{display:block;margin-top:3px;font-size:13px;color:rgba(255,244,234,.6)}
+.sugerencia small{display:inline-block;margin-top:6px;padding:4px 9px;border-radius:99px;background:rgba(255,244,234,.07);font:800 11.5px/1.2 var(--f-texto);color:rgba(255,244,234,.75)}
+.sugerencia em{align-self:start;text-align:right;font:700 22px/1 var(--f-titulo);font-style:normal;color:var(--naranja);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sugerencias__vacio{background:var(--hoja);border-radius:18px;padding:16px;color:rgba(255,244,234,.75);font-size:15px}
+@media (max-width:1000px){ .bolsillo{grid-template-columns:1fr} }
+@media (max-width:767px){
+  .bolsillo{border-radius:28px;padding:22px 16px}
+  .bolsillo__app{padding:16px 14px}
+  .sugerencia{grid-template-columns:38px minmax(0,1fr) auto;gap:10px;padding:11px}
+  .sugerencia > i{width:38px;height:38px;font-size:13px}
+  .sugerencia em{font-size:19px}
+}
+.mock__monto{font:700 10cqw/1 var(--f-titulo)}
+.mock__rango{height:2.2cqw;border-radius:99px;background:linear-gradient(90deg,var(--naranja) 59%,#2a211b 59%)}
+.mock__fila{display:flex;justify-content:space-between;align-items:center;font-size:3.4cqw;color:rgba(255,244,234,.65)}
+.mock__fila b{color:var(--crema);font-weight:900}
+
+/* puntos: se suman con cada promo y cada nivel trae su regalo */
+.premios{margin-top:calc(70 * var(--u));display:grid;gap:clamp(26px, calc(44 * var(--u)), 48px);background:linear-gradient(160deg,#23180f 0%,var(--hoja) 60%);border:1px solid rgba(255,244,234,.1);border-radius:38px;padding:clamp(24px, calc(56 * var(--u)), 60px)}
+.premios > *,.ganas > *,.niveles > *{min-width:0}
+.premios .kicker{color:var(--amarillo)}
+.premios__titulo{margin-top:18px;font:700 clamp(38px, calc(70 * var(--u)), 76px)/.95 var(--f-titulo)}
+.premios__titulo em{display:block;font-style:normal;color:var(--naranja)}
+.premios__cabeza p{margin-top:16px;max-width:640px;color:rgba(255,244,234,.76);font-size:clamp(16.5px, calc(19 * var(--u)), 19px)}
+.premios h4{margin:0 0 14px;font:900 12px/1.2 var(--f-texto);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,244,234,.62)}
+.premios h4 small{font-size:12px;font-weight:800;letter-spacing:.02em;text-transform:none;color:rgba(255,244,234,.45)}
+/* cómo se ganan: al registrarte, con cada promo y al invitar (la cuenta exacta no va en la página) */
+.ganas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px, calc(16 * var(--u)), 18px)}
+.ganas > div{background:var(--noche);border:1px solid rgba(255,244,234,.08);border-radius:24px;padding:clamp(18px, calc(24 * var(--u)), 26px)}
+.ganas__extra{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:center}
+.ganas__extra b{display:grid;place-items:center;height:44px;border-radius:12px;background:var(--naranja);color:var(--crema);font:700 19px/1 var(--f-titulo)}
+.ganas__extra strong{display:block;font:800 16px/1.25 var(--f-texto)}
+.ganas__extra span{display:block;margin-top:3px;font-size:13.5px;line-height:1.35;color:rgba(255,244,234,.62)}
+.ganas .ganas__extra--promo{background:linear-gradient(160deg,#3a1a0a 0%,var(--noche) 75%);border-color:rgba(255,90,31,.45)}
+/* el camino de los niveles: cada uno trae su regalo, y Leyenda (la fidelidad) brilla un poco más */
+.niveles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px, calc(16 * var(--u)), 18px)}
+.niveles li{display:flex;flex-direction:column;gap:12px;background:var(--noche);border:1px solid rgba(255,244,234,.08);border-radius:24px;padding:clamp(16px, calc(22 * var(--u)), 24px)}
+.niveles li:last-child{background:linear-gradient(160deg,#3a1a0a 0%,var(--noche) 70%);border-color:rgba(255,196,61,.35)}
+.niveles__top{display:flex;align-items:center;gap:12px}
+.niveles__pts{font:900 12px/1.2 var(--f-texto);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,244,234,.58)}
+.niveles h5{margin:0;font:700 clamp(24px, calc(29 * var(--u)), 31px)/1 var(--f-titulo)}
+.niveles p{font-size:14px;line-height:1.45;color:rgba(255,244,234,.7)}
+.niveles .regalo{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border-radius:14px;background:rgba(255,90,31,.13);font:800 14px/1.35 var(--f-texto);color:var(--crema)}
+.regalo svg{flex:none;width:18px;height:18px;color:var(--naranja)}
+.regalo b{font-weight:900;color:var(--naranja)}
+.premios__ejemplo{padding:14px 18px;border-radius:16px;background:var(--tinta-2);font-size:15.5px;line-height:1.45;color:var(--crema)}
+.premios__ejemplo b{font-weight:900;color:var(--amarillo)}
+.nivel{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:50%}
+.nivel svg{width:22px;height:22px}
+.nivel--1{background:var(--tinta-2);color:var(--crema)}
+.nivel--2{background:var(--amarillo);color:var(--tinta)}
+.nivel--3{background:var(--naranja);color:var(--crema)}
+.nivel--4{background:var(--crema);color:var(--naranja);box-shadow:0 0 0 3px var(--amarillo)}
+@media (max-width:1000px){
+  .ganas{grid-template-columns:1fr}
+  .niveles{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:767px){
+  .premios{border-radius:28px;padding:22px 16px}
+  .niveles{grid-template-columns:1fr}
+}
+.extras{margin-top:calc(70 * var(--u));display:flex;flex-wrap:wrap;gap:10px}
+.extras li{display:inline-flex;align-items:center;gap:10px;background:var(--hoja);border:1px solid rgba(255,244,234,.08);border-radius:999px;padding:12px 18px 12px 12px;font:800 15px/1 var(--f-texto)}
+.extras img{width:28px;height:28px}
+
+/* pantalla de búsqueda dibujada (la de la app todavía se está armando) */
+.mock{display:flex;flex-direction:column;background:var(--noche);color:var(--crema);padding:13cqw 5.5cqw 0;font-size:3.6cqw;line-height:1.3;gap:2.6cqw}
+.mock__barra{display:flex;align-items:center;gap:2.4cqw}
+.mock__barra img{width:36cqw;height:auto;margin-right:auto}
+.mock__barra i{width:10cqw;height:10cqw;border-radius:3cqw;background:var(--crema)}
+.mock__barra i + i{background:#2a221d}
+.mock__kicker{margin-top:3cqw;font-size:3.3cqw;color:rgba(255,244,234,.65)}
+.mock__titulo{font:600 8.6cqw/1 var(--f-titulo)}
+.mock__titulo b{font-weight:700;color:var(--naranja)}
+.mock__campo{display:flex;align-items:center;gap:2.4cqw;background:#211813;border:1px solid rgba(255,244,234,.12);border-radius:4cqw;padding:3.2cqw 3.6cqw;font-weight:800;font-size:4.2cqw}
+.mock__campo svg{width:4.6cqw;height:4.6cqw;flex:none;opacity:.8}
+.mock__cursor{width:.5cqw;height:5cqw;background:var(--naranja);animation:parpadeo 1s steps(1) infinite}
+@keyframes parpadeo{50%{opacity:0}}
+.mock__lista{display:grid;gap:1.6cqw}
+.mock__lista li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.4cqw 2cqw;background:#1d1511;border-radius:3.6cqw;padding:2.8cqw 3.4cqw}
+.mock__lista b{font-weight:900;font-size:3.8cqw}
+.mock__lista span{grid-column:1;font-size:3cqw;color:rgba(255,244,234,.6)}
+.mock__lista em{grid-row:1/3;grid-column:2;font:700 5.2cqw/1 var(--f-titulo);font-style:normal;color:var(--naranja)}
+.mock__lista .chip{grid-column:1;width:max-content;background:var(--amarillo);color:var(--tinta);border-radius:99px;padding:.8cqw 2cqw;font:900 2.6cqw/1 var(--f-texto);letter-spacing:.04em;text-transform:uppercase}
+.mock__titulo--chico{font-size:6.4cqw;margin-top:1.4cqw}
+.mock__monedas{display:flex;gap:1.6cqw}
+.mock__monedas span{border:1px solid rgba(255,244,234,.22);border-radius:99px;padding:1.6cqw 3cqw;font-weight:900;font-size:3.1cqw}
+.mock__monedas .on{background:var(--naranja);border-color:var(--naranja)}
+.mock__tabs{margin-top:auto;margin-bottom:5cqw;display:grid;grid-template-columns:repeat(5,1fr);background:#1b1410;border:1px solid rgba(255,244,234,.08);border-radius:6cqw;padding:1.6cqw;text-align:center;font:800 2.6cqw/1 var(--f-texto);color:rgba(255,244,234,.55)}
+.mock__tabs span{display:grid;justify-items:center;gap:1cqw;padding:2cqw 0;border-radius:4.4cqw}
+.mock__tabs svg{width:4.8cqw;height:4.8cqw}
+.mock__tabs .on{background:var(--naranja);color:var(--crema)}
+/* "Mis puntos" e "Invita" dibujadas con la regla nueva; la barra de abajo flota como en la app */
+.mock--puntos{padding:0;gap:0}
+.mock--puntos .mock__tabs,.mock--invita .mock__tabs{position:absolute;left:4.5cqw;right:4.5cqw;bottom:4cqw;margin:0}
+.mock__arriba{flex:none;width:100%;height:auto}
+.mock__cuerpo{display:grid;gap:2.8cqw;padding:0 4.5cqw}
+.mock__meta{display:grid;gap:2.2cqw;background:#1d1511;border:1px solid rgba(255,244,234,.1);border-radius:4.4cqw;padding:3.2cqw 3.8cqw}
+.mock__meta-fila{display:flex;justify-content:space-between;gap:2cqw;font-size:3.3cqw;color:rgba(255,244,234,.8)}
+.mock__meta-fila b{color:var(--crema);font-weight:900}
+.mock__barrita{display:block;height:1.5cqw;border-radius:99px;background:#3a2c24;overflow:hidden}
+.mock__barrita i{display:block;width:54%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--amarillo),var(--naranja))}
+.mock__reto{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.6cqw 2cqw;align-items:center;background:#1d1511;border:1px solid rgba(255,244,234,.1);border-radius:4cqw;padding:2.8cqw 3.6cqw}
+.mock__reto span{grid-column:1;font:900 2.6cqw/1 var(--f-texto);letter-spacing:.06em;text-transform:uppercase;color:var(--amarillo)}
+.mock__reto b{grid-column:1;font-weight:900;font-size:3.6cqw}
+.mock__reto em{grid-row:1/3;grid-column:2;font:700 6cqw/1 var(--f-titulo);font-style:normal;color:#3fd07f}
+.mock__reto em svg{display:block;width:6.4cqw;height:6.4cqw;color:var(--naranja)}
+.mock__llevas{font-size:3.8cqw;color:rgba(255,244,234,.7)}
+.mock__llevas span{color:var(--naranja)}
+.mock__cifras{display:grid;grid-template-columns:1fr 1fr;gap:2cqw}
+.mock__cifras b{display:block;font:700 10cqw/1 var(--f-titulo);color:var(--amarillo)}
+.mock__cifras .mock__naranja{color:var(--naranja)}
+.mock__cifras span{font-size:3.2cqw;color:rgba(255,244,234,.65)}
+.mock__boton{display:flex;align-items:center;justify-content:center;gap:2cqw;background:var(--naranja);color:var(--tinta);border-radius:99px;padding:3.4cqw;font:900 3.8cqw/1 var(--f-texto)}
+.mock__boton svg{width:4.4cqw;height:4.4cqw}
+.mock__boton--chico{justify-self:start;padding:3cqw 4.4cqw;font-size:3.4cqw}
+.mock__regla{font-size:3cqw;line-height:1.35;color:rgba(255,244,234,.62)}
+.mock__movs{display:grid;background:#1d1511;border:1px solid rgba(255,244,234,.08);border-radius:4.4cqw;padding:0 3.6cqw}
+.mock__movs li{display:flex;justify-content:space-between;align-items:center;gap:2cqw;padding:2.6cqw 0;border-top:1px solid rgba(255,244,234,.08);font-size:3.4cqw}
+.mock__movs li:first-child{border-top:0}
+.mock__movs small{display:block;font-size:2.8cqw;color:rgba(255,244,234,.55)}
+.mock__movs b{flex:none;font:700 4.4cqw/1 var(--f-titulo)}
+.mock__movs .mas{color:#3fd07f}
+.mock__movs .menos{color:var(--naranja)}
+.mock__invita{position:relative;overflow:hidden;display:grid;gap:2.2cqw;border-radius:4.4cqw;padding:4cqw 4cqw 4.4cqw;background:linear-gradient(120deg,#1d1511 35%,#4a1d09);border:1px solid rgba(255,244,234,.1)}
+.mock__invita img{position:absolute;right:-6cqw;top:1cqw;width:31cqw;transform:rotate(-14deg)}
+.mock__invita-kicker{font:900 2.8cqw/1 var(--f-texto);letter-spacing:.08em;text-transform:uppercase;color:var(--amarillo)}
+.mock__invita-titulo{max-width:68%;font:700 6cqw/1.05 var(--f-titulo)}
+.mock__invita-titulo b{font-weight:700;color:var(--naranja)}
+.mock__invita-texto{max-width:82%;font-size:3.2cqw;color:rgba(255,244,234,.7)}
+.mock__invita-codigo{display:flex;align-items:baseline;gap:2.6cqw;font-size:3.1cqw;color:rgba(255,244,234,.7)}
+.mock__invita-codigo b{font:700 6.4cqw/1 var(--f-titulo);letter-spacing:.12em;color:var(--crema)}
+.mock__enlaces{display:grid;gap:2cqw}
+.mock__enlaces li{display:flex;align-items:center;gap:3cqw;background:#1d1511;border:1px solid rgba(255,244,234,.08);border-radius:4cqw;padding:3cqw 3.6cqw;font-size:3.6cqw}
+.mock__enlaces img{width:7cqw;height:7cqw}
+.mock__enlaces b{flex:1;font-weight:900}
+.mock__enlaces svg{width:4.4cqw;height:4.4cqw;opacity:.6}
+.mock__barra i{display:grid;place-items:center;color:var(--tinta)}
+.mock__barra i + i{color:var(--crema)}
+.mock__barra i svg{width:5.2cqw;height:5.2cqw}
+
+/* para tu negocio */
+.negocio{margin-top:calc(150 * var(--u))}
+.rejilla{margin-top:calc(54 * var(--u));display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.tarjeta{position:relative;background:var(--hoja);border:1px solid rgba(255,244,234,.08);border-radius:30px;padding:clamp(22px, calc(32 * var(--u)), 34px);overflow:hidden}
+.tarjeta h3{font:600 clamp(23px, calc(30 * var(--u)), 32px)/1.08 var(--f-titulo)}
+.tarjeta h3 em{font-style:normal;color:var(--naranja)}
+.tarjeta p{margin-top:10px;color:rgba(255,244,234,.72);font-size:16px}
+.tarjeta__icono{width:50px;height:50px;border-radius:16px;background:var(--tinta-2);padding:9px;margin-bottom:18px}
+.t-duena{grid-column:span 6;grid-row:span 2;padding:0;min-height:560px;display:flex;align-items:flex-end;border:0}
+.t-duena video,.t-duena > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.t-duena::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,12,8,0) 30%,rgba(19,12,8,.94) 100%)}
+.t-duena__texto{position:relative;z-index:2;padding:clamp(24px, calc(40 * var(--u)), 44px)}
+.t-duena__texto h3{font:700 clamp(32px, calc(52 * var(--u)), 56px)/.98 var(--f-titulo)}
+.t-duena__texto .btn{margin-top:20px}
+.t-duena__botones{display:flex;flex-wrap:wrap;gap:10px}
+.t-flyer{grid-column:span 6;display:grid;grid-template-columns:1fr 1.05fr;gap:24px;align-items:center}
+.t-numeros{grid-column:span 6}
+.t-chica{grid-column:span 3}
+.comparar{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;--corte:50%;user-select:none;touch-action:pan-y}
+.comparar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.comparar__antes{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--corte)) 0 0)}
+.comparar__linea{position:absolute;top:0;bottom:0;left:var(--corte);width:3px;margin-left:-1.5px;background:var(--crema);pointer-events:none}
+.comparar__mango{position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px;border-radius:50%;background:var(--crema);color:var(--tinta);display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.comparar__mango svg{width:22px;height:22px}
+.comparar input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.comparar input:focus-visible + .comparar__linea .comparar__mango{outline:3px solid var(--amarillo);outline-offset:3px}
+.comparar__rotulo{position:absolute;top:12px;z-index:2;background:rgba(19,12,8,.72);border-radius:99px;padding:7px 12px;font:900 12px/1 var(--f-texto);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}
+.comparar__rotulo--a{left:12px}
+.comparar__rotulo--b{right:12px;background:var(--naranja)}
+.nota{margin-top:10px;font-size:13px!important;color:rgba(255,244,234,.5)!important}
+.numeros{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.numeros div{background:var(--tinta-2);border-radius:20px;padding:18px 16px}
+.numeros strong{display:block;font:700 clamp(34px, calc(52 * var(--u)), 56px)/1 var(--f-titulo);color:var(--naranja);font-variant-numeric:tabular-nums}
+.numeros span{display:block;margin-top:6px;font-size:14px;color:rgba(255,244,234,.7)}
+.barras{margin-top:16px;display:flex;align-items:flex-end;gap:6px;height:64px}
+.barras i{flex:1;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--naranja),#7a2a0c);height:var(--h);transform-origin:bottom;transform:scaleY(0);transition:transform 1s var(--curva);transition-delay:calc(var(--i) * 60ms)}
+.visible .barras i{transform:scaleY(1)}
+.estado-chip{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:rgba(31,157,85,.14);color:#7be0a5;border-radius:99px;padding:9px 14px;font:900 13px/1 var(--f-texto)}
+.estado-chip i{width:8px;height:8px;border-radius:50%;background:#2fd479}
+.t-sello__sello{position:absolute;right:-22px;bottom:-22px;width:118px;opacity:.95;animation:girar 30s linear infinite}
+.t-sello p{max-width:74%}
+.comision{grid-column:span 12;display:flex;align-items:center;justify-content:space-between;gap:24px;background:transparent;border:1px dashed rgba(255,244,234,.25)}
+.comision strong{font:700 clamp(26px, calc(40 * var(--u)), 44px)/1 var(--f-titulo)}
+.comision strong em{font-style:normal;color:var(--naranja)}
+.comision p{margin:0;max-width:560px}
+.fundadores{grid-column:span 12;background:var(--naranja);color:var(--tinta);border:0;display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px, calc(40 * var(--u)), 44px);align-items:center;padding:clamp(26px, calc(44 * var(--u)), 48px)}
+.fundadores > img{width:clamp(110px, calc(170 * var(--u)), 180px);animation:girar 36s linear infinite}
+.fundadores h3{font:700 clamp(30px, calc(50 * var(--u)), 54px)/.98 var(--f-titulo)}
+.fundadores p{color:rgba(28,21,16,.8)}
+.cupos{margin-top:16px;max-width:520px}
+.cupos__barra{height:12px;border-radius:99px;background:rgba(28,21,16,.18);overflow:hidden}
+.cupos__barra i{display:block;height:100%;width:var(--lleno,0%);background:var(--tinta);border-radius:99px;transition:width 1.4s var(--curva)}
+.cupos__texto{margin-top:8px;font:900 14px/1.2 var(--f-texto);letter-spacing:.04em;text-transform:uppercase}
+.fundadores__botones{display:grid;gap:10px}
+.fundadores small{display:block;margin-top:14px;font-size:13px;color:rgba(28,21,16,.72);max-width:640px}
+
+@media (max-width:1000px){
+  .recorrido{grid-template-columns:1fr}
+  .recorrido__fijo{display:none}
+  .funcion{min-height:auto;opacity:1;padding:34px 0;border-top:1px solid rgba(255,244,234,.1)}
+  .funcion__movil{display:block;margin-top:26px;width:min(68vw, 290px)}
+  .funcion__movil .telefono{width:100%}
+  .funcion__movil .telefono__pantalla > *{opacity:1;transform:none}
+  .t-duena,.t-flyer,.t-numeros{grid-column:span 12}
+  .t-chica{grid-column:span 6}
+  .comision{flex-direction:column;align-items:flex-start}
+  .fundadores{grid-template-columns:1fr}
+  .fundadores > img{display:none}
+}
+@media (max-width:767px){
+  .funciones-sec{padding:72px 0 64px}
+  .t-duena{min-height:520px}
+  .t-flyer{grid-template-columns:1fr}
+  .t-chica{grid-column:span 12}
+  .numeros{grid-template-columns:repeat(3,1fr);gap:8px}
+  .numeros div{padding:14px 10px}
+  .numeros strong{font-size:30px}
+  .numeros span{font-size:12.5px}
+}
+
+/* ═══════════ 04 · CÓMO FUNCIONA ═══════════ */
+.como-sec{padding:calc(150 * var(--u)) 0 calc(160 * var(--u))}
+.como-sec .kicker{color:var(--tinta)}
+.como-sec .titular{color:var(--crema)}
+.como-sec .titular em{color:var(--tinta)}
+.como-sec .bajada{color:rgba(28,21,16,.82)}
+.pestanas{margin-top:34px;display:inline-flex;padding:6px;border-radius:999px;background:rgba(28,21,16,.16);gap:4px}
+.pestanas button{border:0;border-radius:999px;background:transparent;padding:14px 22px;font:900 15px/1 var(--f-texto);color:var(--tinta);cursor:pointer;transition:background-color .3s,color .3s}
+.pestanas button[aria-selected="true"]{background:var(--tinta);color:var(--crema)}
+.pasos{--hueco:clamp(18px, calc(40 * var(--u)), 44px);--num:clamp(84px, calc(170 * var(--u)), 180px);position:relative;margin-top:calc(80 * var(--u));display:grid;grid-template-columns:repeat(3,1fr);gap:var(--hueco)}
+.pasos[hidden]{display:none}
+.paso{position:relative}
+/* los tres números a la misma altura; la figura flota arriba y la unión pasa por debajo, de un número al siguiente */
+.paso__cabeza{position:relative;display:flex;align-items:center;padding-top:calc(var(--num) * .62)}
+.paso__num{flex:none;font:700 var(--num)/.8 var(--f-titulo);color:transparent;-webkit-text-stroke:2px var(--crema);letter-spacing:-.03em}
+.paso__cabeza img{position:absolute;top:0;right:3%;width:auto;height:calc(var(--num) * 1.02 - 18px);max-width:39%;object-fit:contain;object-position:50% 100%;animation:flotar 6s ease-in-out infinite;filter:drop-shadow(0 18px 22px rgba(90,22,0,.35))}
+/* la unión sale después del número y llega justo antes del siguiente; la flecha aparece cuando termina de dibujarse */
+.paso__union{position:relative;flex:1 1 auto;height:2px;margin:0 calc(14px - var(--hueco)) 0 18px}
+.paso__union::before{content:"";position:absolute;inset:0;border-radius:2px;background:var(--crema);transform-origin:left;transform:scaleX(var(--k,1))}
+.paso__union::after{content:"";position:absolute;right:1px;top:50%;width:11px;height:11px;margin-top:-6.5px;border-top:2px solid var(--crema);border-right:2px solid var(--crema);transform:rotate(45deg);opacity:calc((var(--k,1) - .9) * 10)}
+.paso h3{margin-top:22px;font:700 clamp(26px, calc(38 * var(--u)), 40px)/1.02 var(--f-titulo);color:var(--crema)}
+.paso > p{margin-top:10px;color:rgba(28,21,16,.85);font-size:17px}
+.miniui{margin-top:22px;background:var(--crema);color:var(--tinta);border-radius:24px;padding:18px;box-shadow:0 24px 40px -26px rgba(90,22,0,.6)}
+.miniui--oscura{background:var(--tinta);color:var(--crema)}
+.miniui__kicker{font:900 11px/1 var(--f-texto);letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+.miniui__titulo{margin-top:10px;font:700 30px/.95 var(--f-titulo)}
+.miniui__titulo em{font-style:normal;color:var(--naranja)}
+.miniui__fila{margin-top:10px;display:flex;justify-content:space-between;gap:10px;font-size:14px;opacity:.8}
+.codigo{display:block;margin-top:8px;font:700 clamp(38px, calc(52 * var(--u)), 54px)/1 var(--f-titulo);letter-spacing:.06em}
+.burbuja{position:relative;background:#DCF8C6;color:#111;border-radius:18px 18px 4px 18px;padding:12px 14px;font-size:14.5px;line-height:1.4}
+.burbuja small{display:block;text-align:right;margin-top:4px;font-size:11px;color:rgba(0,0,0,.5)}
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;text-align:center}
+.mini-stats b{display:block;font:700 26px/1 var(--f-titulo);color:var(--naranja)}
+.mini-stats span{font-size:12px;opacity:.75}
+.mini-logo{display:flex;align-items:center;gap:12px}
+.mini-logo i{width:46px;height:46px;border-radius:50%;background:var(--naranja);color:var(--crema);display:grid;place-items:center;font:700 17px/1 var(--f-titulo);font-style:normal}
+.mini-logo b{display:block;font:700 19px/1.1 var(--f-titulo)}
+.mini-logo span{font-size:13px;color:var(--verde);font-weight:900}
+.mini-boton{margin-top:12px;display:block;text-align:center;background:var(--naranja);color:var(--crema);border-radius:999px;padding:12px;font:900 14px/1 var(--f-texto)}
+.como-cta{margin-top:calc(80 * var(--u));display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+@media (max-width:900px){
+  .pasos{grid-template-columns:1fr;gap:60px}
+  .paso__cabeza{padding-top:0;justify-content:space-between}
+  .paso__cabeza img{position:static;height:calc(var(--num) * 1.15);max-width:40%}
+  .paso__union{display:none}
+  /* en celular, una flechita hacia abajo de un paso al siguiente */
+  .paso:not(:last-child)::after{content:"";position:absolute;left:calc(var(--num) * .3);top:calc(100% + 12px);width:2px;height:28px;border-radius:2px;background:var(--crema)}
+  .paso:not(:last-child)::before{content:"";position:absolute;left:calc(var(--num) * .3 - 4px);top:calc(100% + 31px);width:10px;height:10px;border-right:2px solid var(--crema);border-bottom:2px solid var(--crema);transform:rotate(45deg)}
+}
+@media (max-width:767px){
+  .como-sec{padding:72px 0 76px}
+  .pestanas{display:flex;width:100%}
+  .pestanas button{flex:1;padding:14px 10px}
+}
+
+/* ═══════════ 05 · PREGUNTAS ═══════════ */
+.preguntas-sec{padding:calc(150 * var(--u)) 0 calc(150 * var(--u))}
+.preguntas{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:calc(90 * var(--u))}
+.preguntas__lado{position:sticky;top:calc(var(--nav) + 40px);align-self:start;display:grid;gap:22px}
+.preguntas__lado .kicker{color:var(--naranja-texto)}
+.preguntas__lado .titular em{color:var(--naranja-texto)}
+.preguntas__lado .bajada{color:rgba(28,21,16,.78)}
+.preguntas__lado .btn{justify-self:start}
+.pregunta{border-top:1px solid rgba(28,21,16,.16)}
+.pregunta:last-child{border-bottom:1px solid rgba(28,21,16,.16)}
+.pregunta summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 0;font:600 clamp(19px, calc(25 * var(--u)), 26px)/1.2 var(--f-titulo)}
+.pregunta summary::-webkit-details-marker{display:none}
+.pregunta summary i{flex:none;width:40px;height:40px;border-radius:50%;background:var(--tinta);color:var(--crema);display:grid;place-items:center;transition:transform .4s var(--curva),background-color .3s}
+.pregunta summary i svg{width:18px;height:18px}
+.pregunta[open] summary i{transform:rotate(45deg);background:var(--naranja)}
+.pregunta summary:hover i{background:var(--naranja)}
+.respuesta{overflow:hidden}
+.respuesta p{padding:0 56px 26px 0;color:rgba(28,21,16,.8);font-size:17px}
+.respuesta a{color:var(--naranja-texto);font-weight:900}
+@media (max-width:900px){
+  .preguntas{grid-template-columns:1fr;gap:34px}
+  .preguntas__lado{position:static}
+}
+@media (max-width:767px){
+  .preguntas-sec{padding:72px 0}
+  .respuesta p{padding-right:0}
+}
+
+/* ═══════════ 06 · CONTACTO ═══════════ */
+.contacto-sec{padding:calc(150 * var(--u)) 0 0;background:radial-gradient(60% 45% at 85% 10%, rgba(255,90,31,.22), transparent 70%),var(--noche)}
+.contacto{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(80 * var(--u));align-items:start}
+.contacto .kicker{color:var(--naranja)}
+.contacto .bajada{margin-top:22px;color:rgba(255,244,234,.75)}
+.canales{margin-top:34px;display:grid;gap:12px}
+.canal{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:16px;background:var(--hoja);border:1px solid rgba(255,244,234,.08);border-radius:22px;padding:14px 18px 14px 14px;text-decoration:none;transition:border-color .3s,transform .35s var(--curva)}
+a.canal:hover{border-color:rgba(255,90,31,.6);transform:translateX(4px)}
+.canal__icono{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;background:var(--tinta-2);color:var(--naranja)}
+.canal__icono svg{width:26px;height:26px}
+.canal--wa .canal__icono{background:#1FA855;color:#fff}
+.canal__texto b{display:block;font:600 19px/1.15 var(--f-titulo)}
+.canal__texto span{display:block;margin-top:2px;font-size:14.5px;color:rgba(255,244,234,.62)}
+.canal > svg{width:20px;height:20px;opacity:.5}
+.formulario{border-radius:32px;padding:clamp(24px, calc(40 * var(--u)), 44px);background:var(--hoja);border:1px solid rgba(255,244,234,.1)}
+.formulario h3{font:700 clamp(28px, calc(40 * var(--u)), 42px)/1 var(--f-titulo)}
+.formulario > p{margin-top:8px;color:rgba(255,244,234,.65);font-size:15.5px}
+.campo{display:grid;gap:8px;margin-top:18px}
+.campo label,.campo legend{font:900 13px/1 var(--f-texto);letter-spacing:.06em;text-transform:uppercase;color:rgba(255,244,234,.75)}
+.campo input,.campo textarea{width:100%;background:var(--noche);border:1.5px solid rgba(255,244,234,.14);border-radius:16px;padding:15px 16px;font-size:16px;font-weight:700;transition:border-color .25s,box-shadow .25s}
+.campo textarea{min-height:120px;resize:vertical}
+.campo input:focus,.campo textarea:focus{outline:none;border-color:var(--naranja);box-shadow:0 0 0 4px rgba(255,90,31,.2)}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(255,244,234,.35)}
+.campo [aria-invalid="true"]{border-color:#ff7b6b}
+.error{font-size:13.5px;color:#ff9a8b;min-height:1em}
+fieldset.campo{border:0;padding:0;margin-inline:0}
+.opciones{display:flex;gap:8px;flex-wrap:wrap}
+.opciones label{cursor:pointer}
+.opciones input{position:absolute;opacity:0;pointer-events:none}
+.opciones span{display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,244,234,.18);border-radius:999px;padding:12px 18px;font:900 15px/1 var(--f-texto);text-transform:none;letter-spacing:0;color:var(--crema);transition:background-color .25s,border-color .25s}
+.opciones input:checked + span{background:var(--naranja);border-color:var(--naranja)}
+.opciones input:focus-visible + span{outline:3px solid var(--amarillo);outline-offset:3px}
+.formulario__botones{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.formulario__botones .enlace{background:none;border:0;padding:8px 4px;cursor:pointer;font-weight:900;text-decoration:underline;text-underline-offset:4px;color:rgba(255,244,234,.8)}
+.descarga{position:relative;margin-top:calc(110 * var(--u));border-radius:36px;padding:clamp(26px, calc(50 * var(--u)), 56px);display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px, calc(46 * var(--u)), 50px);align-items:center;background:linear-gradient(135deg,var(--naranja),#F04B12);color:var(--tinta);overflow:hidden}
+.descarga__icono{width:clamp(96px, calc(150 * var(--u)), 160px);border-radius:24%;box-shadow:0 24px 40px -18px rgba(70,15,0,.7)}
+.descarga h3{font:700 clamp(34px, calc(64 * var(--u)), 68px)/.95 var(--f-titulo);color:var(--crema)}
+.descarga p{margin-top:10px;max-width:520px;color:rgba(28,21,16,.85)}
+/* los dos botones miden lo mismo; si no caben lado a lado, van uno debajo del otro, a lo ancho */
+.descarga__botones{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;max-width:580px}
+.descarga__qr{display:grid;justify-items:center;gap:10px;background:var(--crema);border-radius:24px;padding:16px 18px 14px;text-align:center;font:900 12px/1.2 var(--f-texto);letter-spacing:.04em;text-transform:uppercase}
+.descarga__qr img{width:clamp(120px, calc(150 * var(--u)), 160px);height:auto}
+.descarga small{display:block;margin-top:14px;font-size:13px;color:rgba(28,21,16,.75)}
+[data-so="android"] .solo-ios,[data-so="ios"] .solo-android{order:2}
+[data-so="android"] .descarga__qr,[data-so="ios"] .descarga__qr{display:none}
+.pie{position:relative;z-index:3;margin-top:calc(120 * var(--u));padding:44px 0 40px;border-top:1px solid rgba(255,244,234,.1);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:30px}
+.pie__marca img{width:170px;height:auto}
+.pie__marca p{margin-top:14px;max-width:340px;font-size:15px;color:rgba(255,244,234,.6)}
+.pie h4{margin:0 0 12px;font:900 12.5px/1 var(--f-texto);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,244,234,.5)}
+.pie ul{display:grid;gap:8px}
+.pie a{text-decoration:none;font-weight:800;color:rgba(255,244,234,.86)}
+.pie a:hover{color:var(--naranja)}
+.pie__legal{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;border-top:1px solid rgba(255,244,234,.08);font-size:13.5px;color:rgba(255,244,234,.45)}
+@media (max-width:1000px){
+  .contacto{grid-template-columns:1fr}
+  /* en tablet y celular la tarjeta de descarga va centrada */
+  .descarga{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .descarga p{margin-inline:auto}
+  .descarga__botones{width:100%;margin-inline:auto}
+  .descarga__qr{display:none}
+  .pie{grid-template-columns:1fr 1fr}
+  .pie__marca{grid-column:1/-1}
+}
+@media (max-width:767px){
+  .contacto-sec{padding-top:72px}
+  .descarga{margin-top:56px;border-radius:28px}
+  .descarga__botones{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .aparece{opacity:1;transform:none}
+}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","name":"PromoYa","url":"https://promoya.app/","email":"hola@promoya.app","logo":"https://promoya.app/marca/icono-512.png","sameAs":["https://www.instagram.com/promoya.app/"],"areaServed":"Venezuela"},
+ {"@type":"MobileApplication","name":"PromoYa","operatingSystem":"Android, iOS","applicationCategory":"LifestyleApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Las promos de comida de tu ciudad en una sola app: combos, 2×1 y descuentos de hoy, con la carta de cada local."},
+ {"@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"¿Cuánto me cuesta la app?","acceptedAnswer":{"@type":"Answer","text":"Nada. PromoYa es gratis. Solo pagas lo que comes, directo en el local, en dólares, pesos o bolívares."}},
+  {"@type":"Question","name":"¿Cómo uso una promo?","acceptedAnswer":{"@type":"Answer","text":"Eliges la promo y tocas «Quiero esta promo»: te damos un código. Lo muestras en caja o pides por WhatsApp con el mensaje ya escrito, y pagas en el local, como siempre."}},
+  {"@type":"Question","name":"¿Cómo gano puntos y para qué sirven?","acceptedAnswer":{"@type":"Answer","text":"Ganas 20 puntos de bienvenida al registrarte, 10 cada vez que usas una promo (y más mientras más gastas) y 10 por cada pana que invites, cuando use su primera promo. Con tus puntos subes de nivel: Panita con 500, Comelón con 1.000 y Leyenda con 1.500. Panita y Comelón te dan créditos para pagar menos en tus promos, y siendo Leyenda los locales te tienen promos de fidelidad."}},
+  {"@type":"Question","name":"¿Funciona en mi teléfono?","acceptedAnswer":{"@type":"Answer","text":"Sí, en Android y en iPhone. En Android la instalas desde aquí; si el teléfono te pide permiso o sale un aviso de Google Play Protect, elige instalar igual: es la app oficial. En iPhone se agrega desde Safari en 4 pasos y queda con su ícono. Muy pronto estará en Google Play y en la App Store, y tu cuenta y tus puntos quedan guardados."}}
+ ]}
+]}
+</script>
+</head>
+<body>
+<a class="saltar" href="#beneficios">Saltar al contenido</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-rayo" viewBox="0 0 24 24"><path d="M13.5 2 4 13.5h6.5L9.5 22 20 9.8h-6.6L13.5 2Z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M8 12h12M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-cerrar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/></symbol>
+  <symbol id="i-cupon" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h15A1.5 1.5 0 0 1 21 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 16.5V14a2 2 0 0 0 0-4V7.5Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M15 8v8" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2.2"/></symbol>
+  <symbol id="i-yo" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M4.5 20.5c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.7-1.2-1.5-1.4-1.7-.1-.2 0-.4.1-.5l.4-.4.2-.4c.1-.2 0-.3 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.7 4.3 3.8.6.3 1 .4 1.4.5.6.2 1.1.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3Z"/></symbol>
+  <symbol id="i-android" viewBox="0 0 24 24"><path fill="currentColor" d="M17.6 9.5 19.4 6.3a.4.4 0 0 0-.7-.4l-1.9 3.3a11.4 11.4 0 0 0-9.6 0L5.3 5.9a.4.4 0 0 0-.7.4l1.8 3.2A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.5ZM7 15.3a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Zm10 0a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.2 1.8-3.3 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.6 2.2-1.5 2.7-.4 6.6 1.1 8.8.7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.7.7 2.9.7 1.2 0 1.9-1.1 2.7-2.1.8-1.2 1.2-2.4 1.2-2.5 0 0-2.3-.9-2.4-3.6ZM14.2 6.1c.6-.7 1-1.8.9-2.8-.9 0-1.9.6-2.6 1.3-.6.6-1.1 1.7-.9 2.7 1 .1 2-.5 2.6-1.2Z"/></symbol>
+  <symbol id="i-correo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5.5" fill="none" stroke="currentColor" stroke-width="2.1"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.1"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></symbol>
+  <symbol id="i-bajar" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lapiz" viewBox="0 0 24 24"><path d="M4 20h4.2L19.4 8.8a2 2 0 0 0 0-2.8l-1.4-1.4a2 2 0 0 0-2.8 0L4 15.8V20Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="m13.6 6.2 4.2 4.2" stroke="currentColor" stroke-width="2.1"/></symbol>
+  <symbol id="i-estrella" viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2-4.6-4.4 6.3-.9L12 2.8Z" fill="currentColor"/></symbol>
+  <symbol id="i-regalo" viewBox="0 0 24 24"><path d="M4.5 11.5h15V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19v-7.5ZM3 7.5h18v4H3v-4Zm9 0v13M12 7.5C10.6 4.2 6.8 3.9 6.8 6.2c0 1.3 2.2 1.3 5.2 1.3Zm0 0c1.4-3.3 5.2-3.6 5.2-1.3 0 1.3-2.2 1.3-5.2 1.3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-flechas" viewBox="0 0 24 24"><path d="m9 7-5 5 5 5M15 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#inicio" aria-label="PromoYa, ir al inicio">
+    <img src="assets/marca/logo-sobre-oscuro.svg" alt="PromoYa" width="1131" height="261">
+  </a>
+  <nav class="nav__enlaces" aria-label="Secciones de la página">
+    <a href="#inicio">Inicio</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#funciones">Funciones</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#preguntas">Preguntas</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <a class="btn btn--naranja nav__cta" href="#descargar">Descargar</a>
+  <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir el menú"><svg><use href="#i-menu"/></svg></button>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menú">
+  <img class="menu__logo" src="assets/marca/logo-sobre-oscuro.svg" alt="PromoYa" width="1131" height="261">
+  <button class="menu__cerrar" type="button" aria-label="Cerrar el menú"><svg><use href="#i-cerrar"/></svg></button>
+  <nav aria-label="Secciones">
+    <a href="#inicio">Inicio</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#funciones">Funciones</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#preguntas">Preguntas</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <div class="menu__pie">
+    <a class="btn btn--naranja" href="#descargar"><svg><use href="#i-bajar"/></svg>Descargar gratis</a>
+    <a class="btn btn--borde" href="https://app.promoya.app/negocio">Tengo un negocio</a>
+  </div>
+</div>
+
+<main>
+<!-- ═══════════ 01 · INICIO ═══════════ -->
+<section class="hero grano" id="inicio" aria-labelledby="hero-titulo">
+  <h1 id="hero-titulo" class="sr-only">PromoYa: las promos de comida de hoy en tu ciudad</h1>
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true">
+    <span style="--y:calc(141 * var(--u))">01 / 06</span><span style="--y:calc(476 * var(--u))">Promos de hoy</span><span style="--y:calc(926 * var(--u))">En tu ciudad</span><span style="--y:calc(1246 * var(--u))">01 / 06</span>
+  </div>
+  <div class="rotulos rotulos--der" aria-hidden="true">
+    <span style="--y:calc(141 * var(--u))">01 / 06</span><span style="--y:calc(476 * var(--u))">En tu ciudad</span><span style="--y:calc(926 * var(--u))">Promos de hoy</span><span style="--y:calc(1246 * var(--u))">01 / 06</span>
+  </div>
+
+  <p class="hero__pregunta" aria-hidden="true"><span>¿Qué comemos hoy?</span></p>
+
+  <!-- la luz va detrás de las letras grandes, y se mueve con la misma cámara que la chica -->
+  <div class="escena escena--luz" aria-hidden="true">
+    <div class="camara">
+      <div class="modelo__luz"></div>
+      <img class="modelo__halo" src="assets/img/modelo-halo.webp" alt="" width="880" height="790">
+    </div>
+  </div>
+
+  <div class="titulo" aria-hidden="true">
+    <div class="titulo__linea titulo__linea--1"><svg data-titulo viewBox="0 0 1060 200" preserveAspectRatio="none"><text x="0" y="200" font-size="285.7" textLength="1060" lengthAdjust="spacingAndGlyphs">PROMOS</text></svg></div>
+    <div class="titulo__linea titulo__linea--2"><svg data-titulo viewBox="0 0 1150 250" preserveAspectRatio="none"><text x="0" y="250" font-size="357.1" textLength="1150" lengthAdjust="spacingAndGlyphs">DE HOY</text></svg></div>
+  </div>
+
+  <div class="escena escena--modelo" aria-hidden="true">
+    <div class="camara">
+      <img class="modelo" src="assets/img/modelo-2600.webp" srcset="assets/img/modelo-1400.webp 1400w, assets/img/modelo-2600.webp 2600w" sizes="(max-width: 767px) 125vw, 92vw" alt="" width="2600" height="2600" fetchpriority="high">
+    </div>
+  </div>
+
+  <div class="titulo titulo--contorno" aria-hidden="true">
+    <div class="titulo__linea titulo__linea--1"><svg data-titulo viewBox="0 0 1060 200" preserveAspectRatio="none"><text x="0" y="200" font-size="285.7" textLength="1060" lengthAdjust="spacingAndGlyphs">PROMOS</text></svg></div>
+    <div class="titulo__linea titulo__linea--2"><svg data-titulo viewBox="0 0 1150 250" preserveAspectRatio="none"><text x="0" y="250" font-size="357.1" textLength="1150" lengthAdjust="spacingAndGlyphs">DE HOY</text></svg></div>
+  </div>
+
+  <!-- las piezas se arman al bajar: ventana de avance (a–b), escala inicial (sx, sy), curva, caída (dy %) y giro de entrada -->
+  <div class="escena escena--piezas" aria-hidden="true">
+    <div class="camara">
+      <div class="pieza pieza--pin" data-a=".10" data-b=".40" data-sx=".35" data-sy=".35" data-curva="back" data-s="1.4" data-dy="-70"><img src="assets/img/piezas/pin.webp" alt="" width="687" height="933"></div>
+      <div class="pieza pieza--rayo" data-a=".18" data-b=".48" data-sx=".15" data-sy=".45" data-curva="back" data-s="1.4" data-dy="30"><img src="assets/img/piezas/rayo.webp" alt="" width="636" height="1003"></div>
+      <div class="pieza pieza--porcentaje" data-a=".26" data-b=".56" data-sx=".3" data-sy=".3" data-curva="back" data-s="1.25" data-giro="-45"><img src="assets/img/piezas/porcentaje.webp" alt="" width="951" height="918"></div>
+      <div class="pieza pieza--cupon" data-a=".34" data-b=".64" data-sx=".2" data-sy=".08" data-curva="cubica"><img src="assets/img/piezas/cupon.webp" alt="" width="1100" height="798"></div>
+      <div class="pieza pieza--arepa" data-a=".42" data-b=".74" data-sx=".25" data-sy=".25" data-curva="back" data-s="1.3" data-dy="20" data-giro="25"><img src="assets/img/piezas/arepa.webp" alt="" width="900" height="745"></div>
+      <div class="pieza pieza--chispa1" data-a=".56" data-b=".80" data-sx="0" data-sy="0" data-curva="back" data-s="1.7" data-giro="90"><img src="assets/marca/chispa-amarillo.svg" alt="" width="404" height="404"></div>
+      <div class="pieza pieza--chispa2" data-a=".62" data-b=".84" data-sx="0" data-sy="0" data-curva="back" data-s="1.7" data-giro="-90"><img src="assets/marca/chispa-crema.svg" alt="" width="404" height="404"></div>
+    </div>
+  </div>
+
+  <canvas class="chispas" id="chispas" aria-hidden="true"></canvas>
+  <video class="chispas" id="chispas-alfa" muted loop playsinline preload="none" aria-hidden="true" hidden></video>
+
+  <div class="hero__pie">
+    <div class="hero__intro vidrio">
+      <span class="hoy-chip"><i></i><span data-hoy>Hoy en tu ciudad</span></span>
+      <p class="hero__lead">Todas las promos de comida de tu ciudad en <em>una sola app</em>.</p>
+      <p class="hero__sub">Combos, 2×1 y descuentos de hoy, con la carta de cada local. Sin buscar en Instagram.</p>
+      <div class="hero__botones">
+        <a class="btn btn--naranja" href="#descargar"><svg><use href="#i-bajar"/></svg>Descargar gratis</a>
+        <a class="btn btn--borde" href="#negocios">Tengo un negocio</a>
+      </div>
+    </div>
+    <a class="promo-card vidrio" href="#funciones" aria-label="Ver cómo se ve una promo en la app">
+      <span class="promo-card__kicker">Así se ve una promo en PromoYa</span>
+      <span class="relampago"><svg><use href="#i-rayo"/></svg><span>Relámpago · <span data-cuenta>quedan 2 h 9 min</span></span></span>
+      <span class="promo-card__titulo">2×1 en <em>arepas</em></span>
+      <span class="promo-card__local"><b>Arepera El Pana</b> · 300 m · Ejemplo</span>
+      <span class="promo-card__flecha"><svg><use href="#i-flecha"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════ 02 · BENEFICIOS ═══════════ -->
+<section class="seccion crema grano beneficios-sec" id="beneficios" aria-labelledby="ben-titulo">
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true"><span style="--y:162px">02 / 06</span><span style="--y:34%">Beneficios</span><span style="--y:68%">Para ti y tu local</span><span style="--y:calc(100% - 80px)">02 / 06</span></div>
+  <div class="rotulos rotulos--der" aria-hidden="true"><span style="--y:162px">02 / 06</span><span style="--y:34%">Para ti y tu local</span><span style="--y:68%">Beneficios</span><span style="--y:calc(100% - 80px)">02 / 06</span></div>
+
+  <div class="ficha">
+    <div class="ficha__sello aparece">
+      <span class="etiqueta">[ Sello de PromoYa ]</span>
+      <img src="assets/marca/sello-promo-del-dia.svg" alt="Sello «Promo del día» de PromoYa" width="608" height="608" loading="lazy">
+    </div>
+    <dl class="ficha__datos">
+      <div class="aparece" style="--retraso:.05s"><dt>Para la gente</dt><dd>Gratis, siempre</dd></div>
+      <div class="aparece" style="--retraso:.1s"><dt>Comisión al local</dt><dd>0 % por pedido</dd></div>
+      <div class="aparece" style="--retraso:.15s"><dt>En tu ciudad</dt><dd>Todas sus promos</dd></div>
+      <div class="aparece" style="--retraso:.2s"><dt>Cuentas en</dt><dd>$ · pesos · Bs</dd></div>
+      <div class="aparece" style="--retraso:.25s"><dt>Flyers</dt><dd>Con IA, en tu estilo</dd></div>
+      <div class="aparece" style="--retraso:.3s"><dt>Fundadores</dt><dd>100 locales, 3 meses gratis</dd></div>
+    </dl>
+  </div>
+
+  <article class="intro aparece">
+    <span class="intro__punto" aria-hidden="true"></span><span class="intro__punto" aria-hidden="true"></span><span class="intro__punto" aria-hidden="true"></span><span class="intro__punto" aria-hidden="true"></span>
+    <img class="intro__icono" src="assets/marca/isotipo.svg" alt="" width="250" height="338" loading="lazy">
+    <h2 class="declaracion" id="ben-titulo">
+      <span>Todas las promos de comida</span>
+      <span>de tu ciudad, en una sola</span>
+      <span>app: combos, <em>2×1</em> y</span>
+      <span>descuentos de <em>hoy</em>, con la</span>
+      <span>carta de cada local.</span>
+    </h2>
+    <p>Sin capturas ni «¿todavía está esa promo?». Tú comes rico gastando menos, y los locales llenan sus mesas sin pagar comisión por pedido.</p>
+  </article>
+
+  <div class="contenido">
+    <div class="beneficios">
+      <div class="beneficios__col beneficios__col--gente aparece">
+        <div class="beneficios__cabeza">
+          <div><h3>Para <em>ti</em></h3><p>Gratis para siempre. Solo bájala y come.</p></div>
+          <img src="assets/img/3d-naranja/cupon.webp" alt="" width="480" height="354" loading="lazy">
+        </div>
+        <ul>
+          <li><img src="assets/marca/iconos/icono-promos.svg" alt="" width="96" height="96" loading="lazy"><div><b>Ahorras todos los días</b><span>Combos, 2×1 y descuentos de hoy de toda la ciudad, en un solo lugar.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-puntos.svg" alt="" width="96" height="96" loading="lazy"><div><b>Comes según tu bolsillo</b><span>Dinos cuánto tienen, desde $1 en adelante, en dólares, pesos o bolívares, y cuántos son: te salen los combos para la pareja, la familia o los panas.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-cupon.svg" alt="" width="96" height="96" loading="lazy"><div><b>Pides sin enredos</b><span>Tu código en caja o tu pedido por WhatsApp. Sin papelitos ni capturas.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-premios.svg" alt="" width="96" height="96" loading="lazy"><div><b>Sumas puntos y te llevas regalos</b><span>Cada promo que usas te da puntos. Subes de nivel y en cada nivel te espera un regalo.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-resena.svg" alt="" width="96" height="96" loading="lazy"><div><b>Sabes si vale la pena</b><span>Solo opina quien usó la promo. Reseñas de verdad.</span></div></li>
+        </ul>
+      </div>
+      <div class="beneficios__col beneficios__col--negocio aparece" style="--retraso:.12s">
+        <div class="beneficios__cabeza">
+          <div><h3>Para tu <em>negocio</em></h3><p>Más mesas llenas, sin comisión.</p></div>
+          <img src="assets/img/3d-naranja/pin.webp" alt="" width="317" height="480" loading="lazy">
+        </div>
+        <ul>
+          <li><img src="assets/marca/iconos/icono-negocio-claro.svg" alt="" width="96" height="96" loading="lazy"><div><b>Clientes nuevos, sin comisión</b><span>Hay apps que se quedan con hasta el 30 % de cada venta. PromoYa no te cobra comisión: cada venta es toda tuya.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-rayo-claro.svg" alt="" width="96" height="96" loading="lazy"><div><b>Tu promo en un minuto</b><span>Foto o flyer, el precio y hasta qué día es válida. Sale de una vez en la app.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-escanear-claro.svg" alt="" width="96" height="96" loading="lazy"><div><b>Flyers con IA en tu estilo</b><span>Le tomas foto a tu plato y la IA arma el flyer con tus colores, tu letra y tu logo.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-cerca-claro.svg" alt="" width="96" height="96" loading="lazy"><div><b>Te ve la gente de tu zona</b><span>Avisamos de tu promo a quienes están cerca y buscan qué comer hoy.</span></div></li>
+          <li><img src="assets/marca/iconos/icono-puntos-claro.svg" alt="" width="96" height="96" loading="lazy"><div><b>Sabes cómo te fue</b><span>Cuántos vieron tu promo, cuántos te escribieron y cuántos fueron.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 03 · FUNCIONES ═══════════ -->
+<section class="seccion noche funciones-sec" id="funciones" aria-labelledby="fun-titulo">
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true"><span style="--y:162px">03 / 06</span><span style="--y:30%">Funciones</span><span style="--y:66%">Lo que trae la app</span><span style="--y:calc(100% - 80px)">03 / 06</span></div>
+  <div class="rotulos rotulos--der" aria-hidden="true"><span style="--y:162px">03 / 06</span><span style="--y:30%">Lo que trae la app</span><span style="--y:66%">Funciones</span><span style="--y:calc(100% - 80px)">03 / 06</span></div>
+
+  <div class="contenido">
+    <header class="cabeza aparece">
+      <span class="kicker">Lo que trae la app</span>
+      <h2 class="titular" id="fun-titulo">Pa' salir o <em>pa' pedir</em></h2>
+      <p class="bajada">Viernes en la noche, domingo de pedir o un almuerzo rápido: PromoYa te dice qué hay hoy, dónde y cuánto cuesta.</p>
+    </header>
+
+    <div class="recorrido">
+      <div class="recorrido__textos">
+        <article class="funcion activa" data-pantalla="hoy">
+          <span class="funcion__num">01</span>
+          <h3>Promos de hoy y <em>relámpago</em></h3>
+          <p>Las del día de toda la ciudad, apenas los locales las publican. Las relámpago traen su cuenta regresiva: cuando se acaba el tiempo, se acaba la promo.</p>
+          <ul class="etiquetas"><li>Cuenta regresiva en vivo</li><li>Fotos y precio</li><li>Hasta qué hora es válida</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla"><img src="assets/img/app/pantalla-hoy.webp" alt="" width="720" height="1616" loading="lazy"></div></div></div>
+        </article>
+        <article class="funcion" data-pantalla="elige">
+          <span class="funcion__num">02</span>
+          <h3>Elige la tuya: 2×1, gratis, <em>descuento</em> o combo</h3>
+          <p>Filtra por el tipo de promo y mira a cuántos metros está cada local, si está abierto y hasta qué día es válida la promoción.</p>
+          <ul class="etiquetas"><li>Filtros rápidos</li><li>Distancia</li><li>Abierto o cerrado</li><li>Hasta qué día es válida</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla"><img src="assets/img/app/pantalla-elige.webp" alt="" width="720" height="1616" loading="lazy"></div></div></div>
+        </article>
+        <article class="funcion" data-pantalla="buscar">
+          <span class="funcion__num">03</span>
+          <h3>¿Qué se te antoja? ¿<em>Cuánto tienen</em>?</h3>
+          <p>Escribe pizza, cachapa o shawarma y ves quién lo vende y a cuánto. O dinos cuánto tienen, desde $1 en adelante, en dólares, pesos o bolívares, y cuántos van a comer: solo, en pareja, en familia o con los panas. Te mostramos los combos que les alcanzan, con la tasa del día.</p>
+          <ul class="etiquetas"><li>Buscador de antojos</li><li>Desde $1 en adelante</li><li>Pareja, familia o panas</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla" data-mock="buscar"></div></div></div>
+        </article>
+        <article class="funcion" data-pantalla="codigo">
+          <span class="funcion__num">04</span>
+          <h3>Tu código en <em>un toque</em></h3>
+          <p>Tocas «Quiero esta promo» y te damos un código único. Lo muestras en caja o pides por WhatsApp con el mensaje ya escrito. El local lo aprueba con un toque.</p>
+          <ul class="etiquetas"><li>Código PY único</li><li>Pedido por WhatsApp</li><li>Sin capturas</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla"><img src="assets/img/app/pantalla-codigo.webp" alt="" width="720" height="1616" loading="lazy"></div></div></div>
+        </article>
+        <article class="funcion" data-pantalla="puntos">
+          <span class="funcion__num">05</span>
+          <h3>Puntos y <em>regalos</em></h3>
+          <p>Cada promo que usas con tu código te da puntos: mientras más comes, más sumas. Tus puntos te suben de nivel, de Antojado a Leyenda, y cada nivel trae su regalo.</p>
+          <ul class="etiquetas"><li>Suma con cada promo</li><li>Sube de nivel</li><li>Un regalo en cada nivel</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla" data-mock="puntos"></div></div></div>
+        </article>
+        <article class="funcion" data-pantalla="invita">
+          <span class="funcion__num">06</span>
+          <h3>Invita a tus panas y <em>ganan los dos</em></h3>
+          <p>Comparte tu código por WhatsApp. Cuando tu pana usa su primera promo, tú ganas 10 puntos y tu pana gana 10 más, aparte de sus 20 de bienvenida.</p>
+          <ul class="etiquetas"><li>Tú ganas 10 puntos</li><li>Tu pana gana 10 más</li><li>Compartir promos</li></ul>
+          <div class="funcion__movil" aria-hidden="true"><div class="telefono"><div class="telefono__pantalla" data-mock="invita"></div></div></div>
+        </article>
+      </div>
+      <div class="recorrido__fijo" aria-hidden="true">
+        <div class="recorrido__telefono">
+          <div class="halo"></div>
+          <img class="flota-3d flota-3d--a" src="assets/img/3d-naranja/porcentaje.webp" alt="" width="418" height="480" loading="lazy">
+          <img class="flota-3d flota-3d--b" src="assets/img/3d-naranja/rayo.webp" alt="" width="306" height="480" loading="lazy">
+          <div class="telefono">
+            <div class="telefono__pantalla" id="pantalla">
+              <img class="activa" data-pantalla="hoy" src="assets/img/app/pantalla-hoy.webp" alt="" width="720" height="1616">
+              <img data-pantalla="elige" src="assets/img/app/pantalla-elige.webp" alt="" width="720" height="1616" loading="lazy">
+              <div data-pantalla="buscar" data-mock="buscar"></div>
+              <img data-pantalla="codigo" src="assets/img/app/pantalla-codigo.webp" alt="" width="720" height="1616" loading="lazy">
+              <div data-pantalla="puntos" data-mock="puntos"></div>
+              <div data-pantalla="invita" data-mock="invita"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- por tu bolsillo: demo que se puede usar -->
+    <div class="bolsillo aparece" id="bolsillo">
+      <div class="bolsillo__texto">
+        <span class="kicker">Por tu bolsillo · pruébalo aquí</span>
+        <h3 class="bolsillo__titulo">¿Cuánto tienen? <em>¿Cuántos son?</em></h3>
+        <p>A partir de $1, en dólares, pesos o bolívares: escribe lo que tienen o mueve la barra. Dinos cuántos van a comer, solo, en pareja, en familia o con los panas, y te salen los combos que les alcanzan.</p>
+        <form class="escribe" id="escribe" role="search" aria-label="Escribe cuánto tienen y cuántos son">
+          <svg aria-hidden="true"><use href="#i-lupa"/></svg>
+          <input id="escribe-texto" name="q" autocomplete="off" placeholder="Ej.: tengo 30 dólares y somos 5">
+          <button class="btn btn--naranja btn--chico" type="submit">Buscar</button>
+        </form>
+        <div class="ejemplos" aria-label="Ejemplos">
+          <button type="button">tengo 5 dólares</button>
+          <button type="button">50 mil pesos para la pareja</button>
+          <button type="button">somos 8 panas con $30</button>
+          <button type="button">Bs 15.000 para la familia</button>
+          <button type="button">somos 20 con $250</button>
+        </div>
+        <p class="entendi" id="entendi" aria-live="polite"></p>
+      </div>
+
+      <div class="bolsillo__app">
+        <div class="bolsillo__fila">
+          <label class="bolsillo__rotulo" id="r-tienen" for="b-monto">¿Cuánto tienen?</label>
+          <div class="monedas" role="radiogroup" aria-labelledby="r-tienen">
+            <button type="button" role="radio" aria-checked="true" data-moneda="usd">$</button>
+            <button type="button" role="radio" aria-checked="false" data-moneda="cop">Pesos</button>
+            <button type="button" role="radio" aria-checked="false" data-moneda="ves">Bs</button>
+          </div>
+        </div>
+        <!-- el número grande se puede escribir: dólares, pesos o bolívares, tal cual -->
+        <label class="monto">
+          <span class="monto__signo" id="b-signo">$</span>
+          <input class="monto__campo" id="b-monto" inputmode="decimal" autocomplete="off" spellcheck="false" value="30" aria-labelledby="r-tienen" aria-describedby="b-equiv">
+          <span class="monto__unidad" id="b-unidad"></span>
+          <svg class="monto__lapiz" aria-hidden="true"><use href="#i-lapiz"/></svg>
+        </label>
+        <p class="monto__equiv" id="b-equiv" aria-live="polite">Escríbelo o mueve la barra</p>
+        <input class="rango" type="range" id="b-rango" min="0" max="400" step="1" value="197" aria-label="¿Cuánto tienen? De 1 a 1.000 dólares">
+        <div class="bolsillo__escala" id="b-escala" aria-hidden="true"><span>$1</span><span>$10</span><span>$100</span><span>$1.000</span></div>
+        <div class="bolsillo__fila">
+          <span class="bolsillo__rotulo">¿Cuántos son?</span>
+          <div class="contador">
+            <button type="button" data-paso="-1" aria-label="Una persona menos">−</button>
+            <output id="b-personas" aria-live="polite">5 personas</output>
+            <button type="button" data-paso="1" aria-label="Una persona más">+</button>
+          </div>
+        </div>
+        <div class="personas" aria-label="Atajos">
+          <button type="button" data-personas="1" aria-pressed="false">Solo yo</button>
+          <button type="button" data-personas="2" aria-pressed="false">Pareja · 2</button>
+          <button type="button" data-personas="5" aria-pressed="true">Familia · 5</button>
+          <button type="button" data-personas="8" aria-pressed="false">Panas · 8</button>
+        </div>
+        <p class="bolsillo__resumen" id="b-resumen" aria-live="polite">Con <em>$30</em> para 5 les alcanza para:</p>
+        <ul class="sugerencias" id="b-lista"></ul>
+        <p class="nota" id="b-nota">Locales, combos y precios de ejemplo, con una tasa de referencia. En la app salen los de hoy, con la tasa del día.</p>
+      </div>
+    </div>
+
+    <!-- puntos: se suman al registrarte, con cada promo y al invitar; cada nivel trae su regalo. En la página no va cuánto vale un punto ni cuántos dólares son los créditos -->
+    <div class="premios aparece" id="premios">
+      <div class="premios__cabeza">
+        <span class="kicker">Puntos PromoYa</span>
+        <h3 class="premios__titulo">Come, suma puntos <em>y llévate regalos.</em></h3>
+        <p>Cada vez que usas PromoYa sumas puntos: mientras más comes, más puntos juntas. Con tus puntos subes de nivel, y cada nivel trae su regalo.</p>
+      </div>
+
+      <div>
+        <h4>Así sumas puntos</h4>
+        <div class="ganas">
+          <div class="ganas__extra"><b>+20</b><div><strong>Te registras</strong><span>puntos de bienvenida apenas creas tu cuenta</span></div></div>
+          <div class="ganas__extra ganas__extra--promo"><b>+10</b><div><strong>Usas una promo</strong><span>y sumas más puntos mientras más gastas</span></div></div>
+          <div class="ganas__extra"><b>+10</b><div><strong>Invitas a un pana</strong><span>y tu pana gana 10 más con su primera promo</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <h4>Tu camino <small>· nunca bajas de nivel</small></h4>
+        <ol class="niveles">
+          <li>
+            <div class="niveles__top"><i class="nivel nivel--1"><svg><use href="#i-estrella"/></svg></i><span class="niveles__pts">Empiezas aquí</span></div>
+            <h5>Antojado</h5>
+            <p>Con tus 20 puntos de bienvenida ya vas camino a tu primer crédito.</p>
+          </li>
+          <li>
+            <div class="niveles__top"><i class="nivel nivel--2"><svg><use href="#i-estrella"/></svg></i><span class="niveles__pts">500 puntos</span></div>
+            <h5>Panita</h5>
+            <p class="regalo"><svg aria-hidden="true"><use href="#i-regalo"/></svg><span>Tu regalo: <b>créditos para tus promos</b></span></p>
+            <p>Pagas menos en tu próxima promo.</p>
+          </li>
+          <li>
+            <div class="niveles__top"><i class="nivel nivel--3"><svg><use href="#i-estrella"/></svg></i><span class="niveles__pts">1.000 puntos</span></div>
+            <h5>Comelón</h5>
+            <p class="regalo"><svg aria-hidden="true"><use href="#i-regalo"/></svg><span>Tu regalo: <b>el doble de créditos</b></span></p>
+            <p>Y sigues pagando menos en tus promos.</p>
+          </li>
+          <li>
+            <div class="niveles__top"><i class="nivel nivel--4"><svg><use href="#i-estrella"/></svg></i><span class="niveles__pts">1.500 puntos</span></div>
+            <h5>Leyenda</h5>
+            <p class="regalo"><svg aria-hidden="true"><use href="#i-regalo"/></svg><span>Tu regalo: <b>promos de fidelidad</b></span></p>
+            <p>Descuentos que los locales hacen solo para sus clientes Leyenda.</p>
+          </li>
+        </ol>
+      </div>
+
+      <p class="premios__ejemplo"><b>Ejemplo:</b> si un pana te invita, con tu primera promo ya llevas más de 40 puntos.</p>
+
+      <p class="nota">Los puntos cuentan cuando el local aprueba tu código: 1 promo por local al día y 2 al día en total. Tus créditos duran 60 días y pagan hasta la mitad de una promo.</p>
+    </div>
+
+    <ul class="extras aparece" aria-label="Y además">
+      <li><img src="assets/marca/iconos/icono-reloj-claro.svg" alt="" width="96" height="96" loading="lazy">Abierto o cerrado, en vivo</li>
+      <li><img src="assets/marca/iconos/icono-promos-claro.svg" alt="" width="96" height="96" loading="lazy">La carta de cada local</li>
+      <li><img src="assets/marca/iconos/icono-aviso-claro.svg" alt="" width="96" height="96" loading="lazy">Avisos de promos de tu zona</li>
+      <li><img src="assets/marca/iconos/icono-cerca-claro.svg" alt="" width="96" height="96" loading="lazy">Mapa de locales cerca</li>
+      <li><img src="assets/marca/iconos/icono-resena-claro.svg" alt="" width="96" height="96" loading="lazy">Reseñas de quien sí fue</li>
+      <li><img src="assets/marca/iconos/icono-inicio-claro.svg" alt="" width="96" height="96" loading="lazy">Android y iPhone</li>
+    </ul>
+
+    <!-- para tu negocio -->
+    <div class="negocio" id="negocios">
+      <header class="cabeza aparece">
+        <span class="kicker">Para restaurantes y locales</span>
+        <h2 class="titular">Llena tu local con tu <em>promo del día</em></h2>
+        <p class="bajada">Publicas en un minuto y te ve la gente de tu ciudad que está buscando qué comer hoy. Y sabes cuántos vinieron por tu promo.</p>
+      </header>
+
+      <div class="rejilla">
+        <article class="tarjeta t-duena aparece">
+          <img src="assets/img/duena-local.webp" alt="Dueña de una arepera en su mostrador, con su teléfono en la mano y un plato de arepas" width="1200" height="1490" loading="lazy">
+          <video id="video-duena" muted loop playsinline preload="none" poster="assets/img/duena-local.webp" aria-hidden="true" data-src="assets/video/duena-local.mp4"></video>
+          <div class="t-duena__texto">
+            <h3>Tu local, <em>en el teléfono</em> de la gente</h3>
+            <p>Creas tu perfil, tu carta y tu horario desde la app. Te ayudamos por WhatsApp y lo activamos el mismo día.</p>
+            <div class="t-duena__botones">
+              <a class="btn btn--naranja" href="https://app.promoya.app/negocio">Registrar mi negocio<svg><use href="#i-flecha"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="tarjeta t-flyer aparece" style="--retraso:.08s">
+          <div>
+            <img class="tarjeta__icono" src="assets/marca/iconos/icono-escanear-claro.svg" alt="" width="96" height="96" loading="lazy">
+            <h3>Flyers con IA <em>en tu estilo</em></h3>
+            <p>Le tomas foto a tu plato y la IA te arma el flyer con tus colores, tu letra y tu logo. Para la app, para historias y para estados.</p>
+            <p class="nota">Arrastra para comparar · ejemplo con un local inventado.</p>
+          </div>
+          <div class="comparar" id="comparar">
+            <img src="assets/img/ejemplo-despues.webp" alt="El flyer que hizo la IA para un local inventado" width="640" height="800" loading="lazy">
+            <div class="comparar__antes"><img src="assets/img/ejemplo-antes.webp" alt="La foto del plato tomada con el teléfono" width="640" height="800" loading="lazy"></div>
+            <span class="comparar__rotulo comparar__rotulo--a">Tu foto</span>
+            <span class="comparar__rotulo comparar__rotulo--b">Tu flyer</span>
+            <input type="range" min="0" max="100" value="50" aria-label="Comparar la foto del plato con el flyer hecho con IA">
+            <span class="comparar__linea"><span class="comparar__mango"><svg><use href="#i-flechas"/></svg></span></span>
+          </div>
+        </article>
+
+        <article class="tarjeta t-numeros aparece" style="--retraso:.12s">
+          <img class="tarjeta__icono" src="assets/marca/iconos/icono-puntos-claro.svg" alt="" width="96" height="96" loading="lazy">
+          <h3>¿Cómo le fue <em>a tu promo</em>?</h3>
+          <p>Cuántos la vieron, cuántos te escribieron y cuántos fueron al local. Con eso decides qué repetir.</p>
+          <div class="numeros">
+            <div><strong data-contar="1240">1.240</strong><span>la vieron</span></div>
+            <div><strong data-contar="86">86</strong><span>te escribieron</span></div>
+            <div><strong data-contar="37">37</strong><span>fueron al local</span></div>
+          </div>
+          <div class="barras" aria-hidden="true"><i style="--h:38%;--i:0"></i><i style="--h:52%;--i:1"></i><i style="--h:44%;--i:2"></i><i style="--h:70%;--i:3"></i><i style="--h:63%;--i:4"></i><i style="--h:88%;--i:5"></i><i style="--h:100%;--i:6"></i></div>
+          <p class="nota">Ejemplo de una semana.</p>
+        </article>
+
+        <article class="tarjeta t-chica aparece">
+          <img class="tarjeta__icono" src="assets/marca/iconos/icono-premios-claro.svg" alt="" width="96" height="96" loading="lazy">
+          <h3>Asesor de promos <em>con IA</em></h3>
+          <p>Le dices cuánto te cuesta cada plato y te propone promos que sí te dejan ganancia.</p>
+        </article>
+        <article class="tarjeta t-chica aparece" style="--retraso:.06s">
+          <img class="tarjeta__icono" src="assets/marca/iconos/icono-promos-claro.svg" alt="" width="96" height="96" loading="lazy">
+          <h3>Tu carta, <em>digital</em></h3>
+          <p>Le tomas foto a tu carta y la IA la pasa a la app, plato por plato. Tú solo revisas.</p>
+        </article>
+        <article class="tarjeta t-chica aparece" style="--retraso:.12s">
+          <img class="tarjeta__icono" src="assets/marca/iconos/icono-reloj-claro.svg" alt="" width="96" height="96" loading="lazy">
+          <h3>Tu horario, <em>al día</em></h3>
+          <p>La app dice si estás abierto. ¿Hoy no abres? «Cerrar por hoy» y listo.</p>
+          <span class="estado-chip"><i></i>Abierto · cierra a las 11:00 p. m.</span>
+        </article>
+        <article class="tarjeta t-chica t-sello aparece" style="--retraso:.18s">
+          <img class="tarjeta__icono" src="assets/marca/iconos/icono-escanear-claro.svg" alt="" width="96" height="96" loading="lazy">
+          <h3>Tu QR <em>en el local</em></h3>
+          <p>Habladores de mesa y de caja con tu QR, y el sticker de puerta. Te los llevamos nosotros.</p>
+          <img class="t-sello__sello" src="assets/marca/sello-aliado.svg" alt="" width="608" height="608" loading="lazy">
+        </article>
+
+        <div class="tarjeta comision aparece">
+          <strong>Sin comisión <em>por pedido</em>.</strong>
+          <p>Hay apps que te cobran una parte de cada pedido, a veces hasta el 30 %. En PromoYa no: la gente te paga directo a ti, en tu local o por tu WhatsApp, y la venta es toda tuya.</p>
+        </div>
+
+        <article class="tarjeta fundadores aparece" id="fundadores">
+          <img src="assets/marca/sello-aliado.svg" alt="" width="608" height="608" loading="lazy">
+          <div>
+            <span class="kicker">Fundadores · solo 100 locales</span>
+            <h3 style="margin-top:12px">Inscripción gratis y 3 meses sin pagar</h3>
+            <p style="margin-top:10px">Los primeros 100 locales que se unan a PromoYa no pagan inscripción y tienen 3 meses de mensualidad gratis. Escríbenos y activamos tu local el mismo día, con el sello de Local fundador.</p>
+            <div class="cupos" aria-live="polite">
+              <div class="cupos__barra"><i id="cupos-barra"></i></div>
+              <p class="cupos__texto" id="cupos-texto">Son solo 100 cupos</p>
+            </div>
+            <small>Es por tiempo limitado: solo para los primeros 100 locales.</small>
+          </div>
+          <div class="fundadores__botones">
+            <a class="btn btn--tinta" href="https://wa.me/584247481963?text=%C2%A1Hola!%20Quiero%20mi%20cupo%20de%20fundador%20en%20PromoYa%20para%20mi%20local." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quiero mi cupo</a>
+            <a class="btn btn--borde" href="https://app.promoya.app/negocio">Registrar mi negocio</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 04 · CÓMO FUNCIONA ═══════════ -->
+<section class="seccion naranja grano como-sec" id="como-funciona" aria-labelledby="como-titulo">
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true"><span style="--y:162px">04 / 06</span><span style="--y:36%">Cómo funciona</span><span style="--y:70%">En 3 toques</span><span style="--y:calc(100% - 80px)">04 / 06</span></div>
+  <div class="rotulos rotulos--der" aria-hidden="true"><span style="--y:162px">04 / 06</span><span style="--y:36%">En 3 toques</span><span style="--y:70%">Cómo funciona</span><span style="--y:calc(100% - 80px)">04 / 06</span></div>
+
+  <div class="contenido">
+    <header class="cabeza aparece">
+      <span class="kicker">Cómo funciona</span>
+      <h2 class="titular" id="como-titulo">Así de fácil, <em>en 3 toques</em></h2>
+      <p class="bajada">Nada de capturas ni de «¿todavía está esa promo?». Todo pasa en la app, y pagas en el local como siempre.</p>
+    </header>
+
+    <div class="pestanas" role="tablist" aria-label="¿Para quién?">
+      <button type="button" role="tab" id="tab-gente" aria-selected="true" aria-controls="pasos-gente">Para ti</button>
+      <button type="button" role="tab" id="tab-negocio" aria-selected="false" aria-controls="pasos-negocio" tabindex="-1">Para tu negocio</button>
+    </div>
+
+    <div class="pasos" id="pasos-gente" role="tabpanel" aria-labelledby="tab-gente">
+      <article class="paso aparece">
+        <div class="paso__cabeza"><span class="paso__num">01</span><span class="paso__union" aria-hidden="true"></span><img src="assets/img/piezas/pin.webp" alt="" width="687" height="933" loading="lazy"></div>
+        <h3>Mira las promos de hoy</h3>
+        <p>Las de toda la ciudad, apenas los locales las publican: con fotos, precio y hasta qué hora son válidas.</p>
+        <div class="miniui miniui--oscura" aria-hidden="true">
+          <span class="relampago"><svg><use href="#i-rayo"/></svg>Relámpago · <span data-cuenta>quedan 2 h 9 min</span></span>
+          <p class="miniui__titulo">2×1 en <em>arepas</em></p>
+          <p class="miniui__fila"><span>Arepera El Pana · 300 m</span><span>Ejemplo</span></p>
+        </div>
+      </article>
+      <article class="paso aparece" style="--retraso:.1s">
+        <div class="paso__cabeza"><span class="paso__num">02</span><span class="paso__union" aria-hidden="true"></span><img src="assets/img/piezas/cupon.webp" alt="" width="1100" height="798" loading="lazy"></div>
+        <h3>Toca «Quiero esta promo»</h3>
+        <p>Te damos un código único, solo para ti. Sin capturas ni papelitos.</p>
+        <div class="miniui" aria-hidden="true">
+          <span class="miniui__kicker">Tu código</span>
+          <span class="codigo">PY-4821</span>
+          <p class="miniui__fila"><span>2×1 en arepas</span><span>Válida hasta hoy</span></p>
+        </div>
+      </article>
+      <article class="paso aparece" style="--retraso:.2s">
+        <div class="paso__cabeza"><span class="paso__num">03</span><img src="assets/img/piezas/rayo.webp" alt="" width="636" height="1003" loading="lazy"></div>
+        <h3>Muéstralo en caja o pide por WhatsApp</h3>
+        <p>El local lo aprueba con un toque, tú sumas puntos y a comer.</p>
+        <div class="miniui" aria-hidden="true">
+          <div class="burbuja">¡Hola, Arepera El Pana! 👋 Vengo de PromoYa por la promo «2×1 en arepas». Mi código: PY-4821<small>12:41 p. m. ✓✓</small></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="pasos" id="pasos-negocio" role="tabpanel" aria-labelledby="tab-negocio" hidden>
+      <article class="paso">
+        <div class="paso__cabeza"><span class="paso__num">01</span><span class="paso__union" aria-hidden="true"></span><img src="assets/img/piezas/pin.webp" alt="" width="687" height="933" loading="lazy"></div>
+        <h3>Crea tu local</h3>
+        <p>Desde la app: tu perfil, tu logo, tu carta y tu horario. Te ayudamos por WhatsApp.</p>
+        <div class="miniui" aria-hidden="true">
+          <div class="mini-logo"><i>AP</i><div><b>Arepera El Pana</b><span>● Abierto · cierra a las 10:00 p. m.</span></div></div>
+        </div>
+      </article>
+      <article class="paso">
+        <div class="paso__cabeza"><span class="paso__num">02</span><span class="paso__union" aria-hidden="true"></span><img src="assets/img/piezas/porcentaje.webp" alt="" width="951" height="918" loading="lazy"></div>
+        <h3>Publica tu promo en un minuto</h3>
+        <p>Foto o flyer con IA, el precio y hasta qué día es válida. Sale de una vez en la app y avisamos a la gente de tu zona.</p>
+        <div class="miniui miniui--oscura" aria-hidden="true">
+          <span class="miniui__kicker">Nueva promo</span>
+          <p class="miniui__titulo">2×1 en <em>arepas</em></p>
+          <p class="miniui__fila"><span>$6 · antes $12</span><span>Válida hasta el sábado</span></p>
+          <span class="mini-boton">Publicar</span>
+        </div>
+      </article>
+      <article class="paso">
+        <div class="paso__cabeza"><span class="paso__num">03</span><img src="assets/img/piezas/arepa.webp" alt="" width="900" height="745" loading="lazy"></div>
+        <h3>Recibe a la gente y mira tus números</h3>
+        <p>Apruebas los códigos con un toque, en caja o por WhatsApp, y ves cómo le fue a cada promo.</p>
+        <div class="miniui" aria-hidden="true">
+          <span class="miniui__kicker">¿Cómo le fue? · ejemplo</span>
+          <div class="mini-stats"><div><b>1.240</b><span>la vieron</span></div><div><b>86</b><span>escribieron</span></div><div><b>37</b><span>fueron</span></div></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="como-cta aparece">
+      <a class="btn btn--tinta" href="#descargar"><svg><use href="#i-bajar"/></svg>Descargar gratis</a>
+      <a class="btn btn--borde" href="https://app.promoya.app/negocio">Registrar mi negocio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 05 · PREGUNTAS ═══════════ -->
+<section class="seccion crema grano preguntas-sec" id="preguntas" aria-labelledby="pre-titulo">
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true"><span style="--y:162px">05 / 06</span><span style="--y:38%">Preguntas</span><span style="--y:70%">Respuestas claras</span><span style="--y:calc(100% - 80px)">05 / 06</span></div>
+  <div class="rotulos rotulos--der" aria-hidden="true"><span style="--y:162px">05 / 06</span><span style="--y:38%">Respuestas claras</span><span style="--y:70%">Preguntas</span><span style="--y:calc(100% - 80px)">05 / 06</span></div>
+
+  <div class="contenido preguntas">
+    <div class="preguntas__lado aparece">
+      <span class="kicker">Preguntas frecuentes</span>
+      <h2 class="titular" id="pre-titulo">Lo que todos <em>preguntan</em></h2>
+      <p class="bajada">¿No ves tu pregunta? Escríbenos y te respondemos rapidito.</p>
+      <a class="btn btn--tinta" href="#contacto">Hacer una pregunta</a>
+    </div>
+    <div class="preguntas__lista">
+      <details class="pregunta"><summary>¿Cuánto me cuesta la app?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Nada. PromoYa es gratis. Solo pagas lo que comes, directo en el local, en dólares, pesos o bolívares.</p></div></details>
+      <details class="pregunta"><summary>¿Cómo uso una promo?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Eliges la promo y tocas «Quiero esta promo»: te damos un código. Lo muestras en caja o pides por WhatsApp con el mensaje ya escrito, y pagas en el local, como siempre.</p></div></details>
+      <details class="pregunta"><summary>¿Cómo gano puntos y para qué sirven?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Ganas 20 puntos de bienvenida al registrarte, 10 cada vez que usas una promo (y más mientras más gastas) y 10 por cada pana que invites, cuando use su primera promo. Con tus puntos subes de nivel: Panita con 500, Comelón con 1.000 y Leyenda con 1.500. Panita y Comelón te dan créditos para pagar menos en tus promos, y siendo Leyenda los locales te tienen promos de fidelidad. <a href="#premios">Mira cómo funciona</a>.</p></div></details>
+      <details class="pregunta"><summary>¿Funciona en mi teléfono?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Sí, en Android y en iPhone. En Android la instalas desde aquí; si el teléfono te pide permiso o sale un aviso de Google Play Protect, elige instalar igual: es la app oficial. En iPhone se agrega desde Safari en 4 pasos y queda con su ícono. Muy pronto estará en Google Play y en la App Store, y tu cuenta y tus puntos quedan guardados.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 06 · CONTACTO ═══════════ -->
+<section class="seccion noche contacto-sec" id="contacto" aria-labelledby="con-titulo">
+  <div class="marco" aria-hidden="true"></div>
+  <div class="rotulos rotulos--izq" aria-hidden="true"><span style="--y:162px">06 / 06</span><span style="--y:34%">Contacto</span><span style="--y:62%">Hablemos</span><span style="--y:calc(100% - 80px)">06 / 06</span></div>
+  <div class="rotulos rotulos--der" aria-hidden="true"><span style="--y:162px">06 / 06</span><span style="--y:34%">Hablemos</span><span style="--y:62%">Contacto</span><span style="--y:calc(100% - 80px)">06 / 06</span></div>
+
+  <div class="contenido">
+    <div class="contacto">
+      <div class="aparece">
+        <span class="kicker">Contacto</span>
+        <h2 class="titular" id="con-titulo" style="margin-top:20px">¿<em>Hablamos</em>?</h2>
+        <p class="bajada">Escríbenos por WhatsApp o al correo. Si tienes un local, te ayudamos a crear tu perfil y lo activamos el mismo día.</p>
+        <div class="canales">
+          <a class="canal canal--wa" href="https://wa.me/584247481963?text=%C2%A1Hola%2C%20PromoYa!%20" target="_blank" rel="noopener"><span class="canal__icono"><svg><use href="#i-wa"/></svg></span><span class="canal__texto"><b>WhatsApp</b><span>0424-748-1963</span></span><svg><use href="#i-flecha"/></svg></a>
+          <a class="canal" href="mailto:hola@promoya.app"><span class="canal__icono"><svg><use href="#i-correo"/></svg></span><span class="canal__texto"><b>Correo</b><span>hola@promoya.app</span></span><svg><use href="#i-flecha"/></svg></a>
+          <a class="canal" href="https://www.instagram.com/promoya.app/" target="_blank" rel="noopener"><span class="canal__icono"><svg><use href="#i-insta"/></svg></span><span class="canal__texto"><b>Instagram</b><span>@promoya.app</span></span><svg><use href="#i-flecha"/></svg></a>
+          <div class="canal"><span class="canal__icono"><svg><use href="#i-pin"/></svg></span><span class="canal__texto"><b>Hecho en Venezuela</b><span>Para las promos de tu ciudad</span></span></div>
+        </div>
+      </div>
+
+      <form class="formulario aparece" id="formulario" novalidate style="--retraso:.1s">
+        <h3>Escríbenos</h3>
+        <p>Llenas esto y te abrimos WhatsApp con el mensaje listo. Tú decides si lo mandas.</p>
+        <fieldset class="campo">
+          <legend>Soy</legend>
+          <div class="opciones">
+            <label><input type="radio" name="tipo" value="persona" checked><span>Una persona</span></label>
+            <label><input type="radio" name="tipo" value="negocio"><span>Tengo un local</span></label>
+          </div>
+        </fieldset>
+        <div class="campo">
+          <label for="f-nombre">Tu nombre</label>
+          <input id="f-nombre" name="nombre" autocomplete="name" placeholder="Ej.: María Pérez" required aria-describedby="e-nombre">
+          <span class="error" id="e-nombre" aria-live="polite"></span>
+        </div>
+        <div class="campo" id="campo-local" hidden>
+          <label for="f-local">Nombre del local</label>
+          <input id="f-local" name="local" autocomplete="organization" placeholder="Ej.: Arepera El Pana">
+        </div>
+        <div class="campo">
+          <label for="f-mensaje">Tu mensaje</label>
+          <textarea id="f-mensaje" name="mensaje" placeholder="Cuéntanos en qué te ayudamos" required aria-describedby="e-mensaje"></textarea>
+          <span class="error" id="e-mensaje" aria-live="polite"></span>
+        </div>
+        <div class="formulario__botones">
+          <button class="btn btn--wa" type="submit"><svg><use href="#i-wa"/></svg>Enviar por WhatsApp</button>
+          <button class="enlace" type="button" id="por-correo">o mandarlo por correo</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="descarga aparece" id="descargar">
+      <img class="descarga__icono" src="assets/marca/icono-192.png" alt="Ícono de la app PromoYa" width="192" height="192" loading="lazy">
+      <div>
+        <h3>Descarga PromoYa</h3>
+        <p>Gratis, para Android y iPhone. Toma un minuto y tu cuenta queda lista para pedir.</p>
+        <div class="descarga__botones">
+          <a class="btn btn--tinta solo-android" href="https://app.promoya.app/apk/PromoYa.apk"><svg><use href="#i-android"/></svg>Descargar para Android</a>
+          <a class="btn btn--crema solo-ios" href="https://app.promoya.app/instalar#iphone"><svg><use href="#i-apple"/></svg>Abrir en iPhone</a>
+        </div>
+        <small>Muy pronto en Google Play y en la App Store. Cuando salga, tu cuenta y tus puntos quedan guardados.</small>
+      </div>
+      <div class="descarga__qr">
+        <img src="assets/marca/qr-descargar.svg" alt="Código QR para descargar PromoYa en el teléfono" width="160" height="160" loading="lazy">
+        <span>¿Estás en la<br>computadora? Escanéalo</span>
+      </div>
+    </div>
+
+    <footer class="pie">
+      <div class="pie__marca">
+        <img src="assets/marca/logo-sobre-oscuro.svg" alt="PromoYa" width="1131" height="261" loading="lazy">
+        <p>Las promos de comida de tu ciudad. Hecho en Venezuela.</p>
+      </div>
+      <div>
+        <h4>La app</h4>
+        <ul>
+          <li><a href="https://app.promoya.app">Abrir la app</a></li>
+          <li><a href="https://app.promoya.app/negocio">Panel de negocios</a></li>
+          <li><a href="https://promoya.app/san-cristobal/">Dónde comer en tu ciudad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="https://app.promoya.app/soporte">Soporte</a></li>
+          <li><a href="https://app.promoya.app/privacidad">Privacidad</a></li>
+          <li><a href="https://app.promoya.app/terminos">Términos</a></li>
+        </ul>
+      </div>
+      <div class="pie__legal">
+        <span>© <span data-anio>2026</span> PromoYa · hola@promoya.app</span>
+        <span>Locales y promos de esta página: ejemplos inventados.</span>
+      </div>
+    </footer>
+  </div>
+</section>
+</main>
+
+<template id="tpl-buscar">
+  <div class="mock">
+    <div class="mock__barra"><img src="assets/marca/logo-sobre-oscuro.svg" alt="" width="1131" height="261"><i><svg><use href="#i-yo"/></svg></i><i><svg><use href="#i-menu"/></svg></i></div>
+    <p class="mock__kicker">Buscar · tu ciudad</p>
+    <p class="mock__titulo">¿Qué se te <b>antoja</b>?</p>
+    <div class="mock__campo"><svg><use href="#i-lupa"/></svg><span data-escribir>pizza</span><i class="mock__cursor"></i></div>
+    <p class="mock__titulo mock__titulo--chico">¿Cuánto <b>tienen</b>?</p>
+    <div class="mock__monedas"><span class="on">$</span><span>Pesos</span><span>Bs</span></div>
+    <p class="mock__monto">$30</p>
+    <div class="mock__rango"></div>
+    <div class="mock__fila"><span>¿Cuántos son?</span><b>5 · familia</b></div>
+    <ul class="mock__lista">
+      <li><b>Combo familiar</b><span>Pollos del Táchira · para 5</span><em>$18</em><i class="chip">−20 % hoy</i></li>
+      <li><b>Desayuno familiar</b><span>Arepera El Pana · para 5</span><em>$15</em></li>
+      <li><b>Pizza familiar + refresco</b><span>Pizzería La Plaza · para 4</span><em>$14</em></li>
+    </ul>
+    <div class="mock__tabs">
+      <span><svg><use href="#i-rayo"/></svg>Hoy</span>
+      <span class="on"><svg><use href="#i-lupa"/></svg>Buscar</span>
+      <span><svg><use href="#i-pin"/></svg>Cerca</span>
+      <span><svg><use href="#i-cupon"/></svg>Cupones</span>
+      <span><svg><use href="#i-yo"/></svg>Yo</span>
+    </div>
+  </div>
+</template>
+
+<!-- "Mis puntos" con la regla nueva: arriba va la captura de la app (saludo y regalo); lo de abajo se dibuja -->
+<template id="tpl-puntos">
+  <div class="mock mock--puntos">
+    <img class="mock__arriba" src="assets/img/app/puntos-arriba.webp" alt="" width="720" height="972">
+    <div class="mock__cuerpo">
+      <div class="mock__meta">
+        <p class="mock__meta-fila"><span>Para subir a Comelón</span><b>540 / 1.000 pts</b></p>
+        <i class="mock__barrita"><i></i></i>
+      </div>
+      <p class="mock__llevas">Lo que llevas <span>★</span></p>
+      <div class="mock__cifras"><div><b class="mock__naranja">540</b><span>puntos</span></div><div><b>Panita</b><span>tu nivel</span></div></div>
+      <p class="mock__reto"><span>Tu próximo regalo</span><b>El doble de créditos</b><em><svg><use href="#i-regalo"/></svg></em></p>
+      <p class="mock__regla">Te faltan 460 puntos para ser Comelón. Sigue comiendo con PromoYa.</p>
+    </div>
+    <div class="mock__tabs">
+      <span><svg><use href="#i-rayo"/></svg>Hoy</span>
+      <span><svg><use href="#i-lupa"/></svg>Buscar</span>
+      <span><svg><use href="#i-pin"/></svg>Cerca</span>
+      <span><svg><use href="#i-cupon"/></svg>Cupones</span>
+      <span class="on"><svg><use href="#i-yo"/></svg>Yo</span>
+    </div>
+  </div>
+</template>
+
+<!-- movimientos e invitaciones: puntos por cada promo y por invitar, créditos al subir de nivel (sin montos en dólares) -->
+<template id="tpl-invita">
+  <div class="mock mock--invita">
+    <div class="mock__barra"><img src="assets/marca/logo-sobre-oscuro.svg" alt="" width="1131" height="261"><i><svg><use href="#i-yo"/></svg></i><i><svg><use href="#i-menu"/></svg></i></div>
+    <p class="mock__kicker">Tus movimientos · ejemplo</p>
+    <ul class="mock__movs">
+      <li><span>Promo · Arepera El Pana<small>25 oct · 2×1 en arepas</small></span><b class="mas">+16</b></li>
+      <li><span>Subiste a Panita<small>23 oct · tus créditos ya están en la app</small></span><b class="menos">Créditos</b></li>
+      <li><span>Promo · Pizzería La Plaza<small>21 oct · pizza mediana</small></span><b class="mas">+19</b></li>
+      <li><span>Invitaste a Luis<small>19 oct · usó su primera promo</small></span><b class="mas">+10</b></li>
+      <li><span>Promo · Pollos del Táchira<small>16 oct · combo familiar</small></span><b class="mas">+28</b></li>
+    </ul>
+    <div class="mock__invita">
+      <img src="assets/img/3d-naranja/cupon.webp" alt="" width="480" height="354">
+      <p class="mock__invita-kicker">Invita y gana puntos</p>
+      <p class="mock__invita-titulo">Gana <b>10 puntos</b> por cada pana</p>
+      <p class="mock__invita-texto">Cuando tu pana use su primera promo, tú ganas 10 puntos y tu pana gana 10 más.</p>
+      <p class="mock__invita-codigo"><span>Tu código</span><b>VALE4821</b></p>
+      <span class="mock__boton mock__boton--chico"><svg><use href="#i-wa"/></svg>Invitar por WhatsApp</span>
+    </div>
+    <ul class="mock__enlaces">
+      <li><img src="assets/marca/iconos/icono-premios-claro.svg" alt="" width="96" height="96"><b>Mis niveles y regalos</b><svg><use href="#i-flecha"/></svg></li>
+      <li><img src="assets/marca/iconos/icono-puntos-claro.svg" alt="" width="96" height="96"><b>Cómo gano puntos</b><svg><use href="#i-flecha"/></svg></li>
+    </ul>
+    <div class="mock__tabs">
+      <span><svg><use href="#i-rayo"/></svg>Hoy</span>
+      <span><svg><use href="#i-lupa"/></svg>Buscar</span>
+      <span><svg><use href="#i-pin"/></svg>Cerca</span>
+      <span><svg><use href="#i-cupon"/></svg>Cupones</span>
+      <span class="on"><svg><use href="#i-yo"/></svg>Yo</span>
+    </div>
+  </div>
+</template>
+
+<script>
+(() => {
+  const raiz = document.documentElement;
+  const mqMovimiento = matchMedia('(prefers-reduced-motion: reduce)');
+  const quieto = () => mqMovimiento.matches;
+  const curva = 'cubic-bezier(.2,.8,.2,1)';
+  const limitar = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const salidaCubica = t => 1 - Math.pow(1 - t, 3);
+  const vaivenCubico = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const salidaBack = (t, s = 1.7) => 1 + (s + 1) * Math.pow(t - 1, 3) + s * Math.pow(t - 1, 2);
+
+  // ancho real sin la barra de desplazamiento (la unidad --u sale de aquí)
+  const medir = () => raiz.style.setProperty('--vw', raiz.clientWidth / 100 + 'px');
+  medir();
+  addEventListener('resize', medir, { passive: true });
+
+  // sistema del teléfono, para ordenar los botones de descarga
+  const ua = navigator.userAgent;
+  raiz.dataset.so = /Android/i.test(ua) ? 'android' : (/iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) ? 'ios' : 'pc';
+
+  /* ── Título: las mayúsculas llenan su caja exacta (alto con la letra, ancho con textLength) ── */
+  let proporcionMayus = .7;
+  function ajustarTitulos() {
+    try {
+      const c = document.createElement('canvas').getContext('2d');
+      c.font = '700 200px Fredoka';
+      const m = c.measureText('H');
+      if (m.actualBoundingBoxAscent > 0) proporcionMayus = m.actualBoundingBoxAscent / 200;
+    } catch (e) {}
+    document.querySelectorAll('svg[data-titulo]').forEach(svg => {
+      const r = svg.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const w = r.width, h = r.height;
+      const t = svg.querySelector('text');
+      svg.setAttribute('viewBox', `0 0 ${w.toFixed(2)} ${h.toFixed(2)}`);
+      t.setAttribute('font-size', (h / proporcionMayus).toFixed(2));
+      t.setAttribute('y', h.toFixed(2));
+      t.setAttribute('textLength', w.toFixed(2));
+    });
+  }
+  (document.fonts && document.fonts.load ? document.fonts.load('700 200px Fredoka') : Promise.resolve()).then(ajustarTitulos, ajustarTitulos);
+  let esperaTitulos;
+  addEventListener('resize', () => { clearTimeout(esperaTitulos); esperaTitulos = setTimeout(ajustarTitulos, 120); }, { passive: true });
+
+  /* ── Entrada al cargar ── */
+  if (!quieto() && Element.prototype.animate) {
+    const lineas = (n) => document.querySelectorAll(`.titulo__linea--${n} svg`);
+    lineas(1).forEach(el => el.animate([{ transform: 'translateY(102%)' }, { transform: 'translateY(0)' }], { duration: 1100, delay: 150, easing: curva, fill: 'backwards' }));
+    lineas(2).forEach(el => el.animate([{ transform: 'translateY(102%)' }, { transform: 'translateY(0)' }], { duration: 1100, delay: 290, easing: curva, fill: 'backwards' }));
+    const preg = document.querySelector('.hero__pregunta span');
+    preg.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 900, delay: 60, easing: curva, fill: 'backwards' });
+    const suaves = [document.getElementById('nav'), ...document.querySelectorAll('.hero .rotulos span')];
+    suaves.forEach((el, i) => el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: 120 + 25 * i, easing: curva, fill: 'backwards' }));
+    document.querySelectorAll('.escena').forEach(el => el.animate([{ translate: '0 6%', opacity: 0 }, { translate: '0 0', opacity: 1 }], { duration: 1300, easing: curva, fill: 'backwards' }));
+    document.querySelectorAll('.hero__pie > *').forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], { duration: 1000, delay: 500 + i * 120, easing: curva, fill: 'backwards' }));
+  }
+
+  /* ── El "arme" al bajar: las piezas aparecen y la cámara se acerca a su cara ── */
+  const hero = document.getElementById('inicio');
+  const camaras = document.querySelectorAll('.hero .camara');
+  const piezas = [...document.querySelectorAll('.pieza')].map(el => ({
+    el, a: +el.dataset.a, b: +el.dataset.b, sx: +el.dataset.sx, sy: +el.dataset.sy,
+    curva: el.dataset.curva, s: +(el.dataset.s || 1.7), dy: +(el.dataset.dy || 0), giro: +(el.dataset.giro || 0)
+  }));
+  const contorno = document.querySelector('.titulo--contorno');
+  let p = quieto() ? 1 : 0, ultimo = -1, ultimoY = -1;
+  let altoHero = hero.offsetHeight;
+  addEventListener('resize', () => { altoHero = hero.offsetHeight; }, { passive: true });
+  const objetivo = () => {
+    if (quieto()) return 1;
+    const vh = innerHeight;
+    return limitar((scrollY - .04 * vh) / (.5 * vh));
+  };
+  function pintarEscena() {
+    // la escena baja a casi la mitad del scroll: su cara sigue a la vista mientras la cámara se acerca
+    const y = quieto() ? 0 : Math.round(Math.min(scrollY, altoHero) * (innerWidth < 768 ? .3 : .45));
+    if (Math.abs(p - ultimo) < 1e-4 && y === ultimoY) return;
+    ultimo = p; ultimoY = y;
+    // con "menos movimiento" se ven todas las piezas, pero sin acercar la cámara
+    const e = quieto() ? 0 : vaivenCubico(p);
+    const t = `translate3d(0, ${y}px, 0) translateY(${(-4 * e).toFixed(3)}%) scale(${(1 + .3 * e).toFixed(4)})`;
+    camaras.forEach(c => { c.style.transform = t; });
+    contorno.style.opacity = (1 - .85 * e).toFixed(3);
+    for (const k of piezas) {
+      const l = limitar((p - k.a) / (k.b - k.a));
+      const v = k.curva === 'back' ? salidaBack(l, k.s) : salidaCubica(l);
+      const sx = k.sx + (1 - k.sx) * v, sy = k.sy + (1 - k.sy) * v;
+      k.el.style.opacity = limitar(l / .07).toFixed(3);
+      k.el.style.transform = `translateY(${(k.dy * (1 - v)).toFixed(2)}%) rotate(${(k.giro * (1 - v)).toFixed(2)}deg) scale(${sx.toFixed(4)}, ${sy.toFixed(4)})`;
+    }
+  }
+
+  /* ── Lluvia de cupones: video sobre verde, recortado en WebGL según el verde ── */
+  const lienzo = document.getElementById('chispas');
+  const videoAlfa = document.getElementById('chispas-alfa');
+  const video = document.createElement('video');
+  video.muted = true; video.loop = true; video.playsInline = true; video.preload = 'auto';
+  video.setAttribute('playsinline', ''); video.setAttribute('muted', '');
+  let gl = null, programa, textura, uEscala, uDesfase, glListo = false, nuevoCuadro = true, modoChispas = 'gl';
+
+  function usarVideoConAlfa() {
+    modoChispas = 'webm';
+    lienzo.hidden = true;
+    // Safari no dibuja la transparencia del WebM: ahí mejor sin lluvia
+    const esSafari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(ua);
+    if (esSafari || quieto()) return;
+    videoAlfa.src = 'assets/video/particulas-alfa.webm';
+    videoAlfa.hidden = false;
+    videoAlfa.play().catch(() => {});
+  }
+
+  function iniciarGL() {
+    try { gl = lienzo.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false }); } catch (e) { gl = null; }
+    if (!gl) return false;
+    const vs = 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
+    // alfa = cuánto NO es verde (y sobre negro también se va el borde verdoso: más verde que rojo);
+    // el verde que sobra se baja al nivel del rojo; el centro (su cara) queda despejado
+    const fs = 'precision mediump float;varying vec2 uv;uniform sampler2D t;uniform vec2 esc;uniform vec2 des;' +
+      'void main(){vec3 c=texture2D(t,uv*esc+des).rgb;float m=max(c.r,c.b);float k=c.g-m;' +
+      'float a=(1.-smoothstep(.03,.17,k))*(1.-smoothstep(0.,.09,c.g-c.r));c.g=min(c.g,c.r);c=min(c*1.07,1.);' +
+      'float lado=1.-smoothstep(.19,.25,uv.x)*(1.-smoothstep(.75,.81,uv.x));a*=lado;' +
+      'gl_FragColor=vec4(c*a,a);}';
+    const sh = (tipo, src) => { const s = gl.createShader(tipo); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    programa = gl.createProgram();
+    gl.attachShader(programa, sh(gl.VERTEX_SHADER, vs));
+    gl.attachShader(programa, sh(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(programa);
+    if (!gl.getProgramParameter(programa, gl.LINK_STATUS)) return false;
+    gl.useProgram(programa);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(programa, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    textura = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, textura);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    uEscala = gl.getUniformLocation(programa, 'esc');
+    uDesfase = gl.getUniformLocation(programa, 'des');
+    gl.clearColor(0, 0, 0, 0);
+    return true;
+  }
+  function tamanoLienzo() {
+    if (!gl) return;
+    const r = lienzo.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
+    if (lienzo.width !== w || lienzo.height !== h) { lienzo.width = w; lienzo.height = h; nuevoCuadro = true; }
+    gl.viewport(0, 0, w, h);
+    // "cubrir": el video es cuadrado; se recorta por el lado que sobre
+    const asp = w / h;
+    if (asp >= 1) { gl.uniform2f(uEscala, 1, 1 / asp); gl.uniform2f(uDesfase, 0, (1 - 1 / asp) / 2); }
+    else { gl.uniform2f(uEscala, asp, 1); gl.uniform2f(uDesfase, (1 - asp) / 2, 0); }
+  }
+  function dibujarChispas() {
+    if (modoChispas !== 'gl' || !glListo || video.readyState < 2) return;
+    if (!nuevoCuadro) return;
+    try {
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, video);
+    } catch (e) {
+      // al abrir el archivo directo (file://) el navegador no deja leer el video: se usa el WebM transparente
+      glListo = false; usarVideoConAlfa(); return;
+    }
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (video.requestVideoFrameCallback) nuevoCuadro = false;
+  }
+  function alCuadroDeVideo() { nuevoCuadro = true; video.requestVideoFrameCallback(alCuadroDeVideo); }
+
+  if (quieto()) {
+    lienzo.hidden = true;
+  } else if (iniciarGL()) {
+    video.src = 'assets/video/particulas.mp4';
+    video.addEventListener('loadeddata', () => { glListo = true; tamanoLienzo(); }, { once: true });
+    if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(alCuadroDeVideo);
+    addEventListener('resize', tamanoLienzo, { passive: true });
+    video.play().catch(() => {});
+  } else {
+    usarVideoConAlfa();
+  }
+
+  /* ── Bucle de cuadros mientras el inicio está en pantalla ── */
+  let heroVisible = true, corriendo = false;
+  function cuadro() {
+    const m = objetivo();
+    p += (m - p) * .2;
+    if (Math.abs(m - p) < 4e-4) p = m;
+    pintarEscena();
+    dibujarChispas();
+    if (heroVisible) requestAnimationFrame(cuadro); else corriendo = false;
+  }
+  function arrancar() { if (!corriendo) { corriendo = true; requestAnimationFrame(cuadro); } }
+  new IntersectionObserver(([e]) => {
+    heroVisible = e.isIntersecting;
+    if (heroVisible) {
+      arrancar();
+      if (modoChispas === 'gl' && !quieto()) video.play().catch(() => {});
+      if (modoChispas === 'webm' && !videoAlfa.hidden) videoAlfa.play().catch(() => {});
+    } else {
+      video.pause(); videoAlfa.pause();
+    }
+  }).observe(hero);
+  pintarEscena();
+  arrancar();
+
+  /* ── Navegación: se vuelve sólida al salir del inicio y marca la sección ── */
+  const nav = document.getElementById('nav');
+  const solida = () => {
+    const fin = hero.offsetHeight - nav.offsetHeight - 4;
+    nav.classList.toggle('es-solida', scrollY > fin);
+    nav.classList.toggle('es-flotante', scrollY > 40 && scrollY <= fin);
+  };
+  solida();
+  addEventListener('scroll', solida, { passive: true });
+  const enlaces = [...document.querySelectorAll('.nav__enlaces a')];
+  const vigiaSecciones = new IntersectionObserver(entradas => {
+    entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      enlaces.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + e.target.id ? 'true' : 'false'));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main > section').forEach(s => vigiaSecciones.observe(s));
+
+  /* ── Menú de pantalla completa ── */
+  const menu = document.getElementById('menu');
+  const botonMenu = document.querySelector('.nav__menu');
+  const abrirMenu = (si) => {
+    menu.classList.toggle('abierto', si);
+    botonMenu.setAttribute('aria-expanded', si ? 'true' : 'false');
+    document.body.style.overflow = si ? 'hidden' : '';
+    if (si) menu.querySelector('.menu__cerrar').focus(); else botonMenu.focus({ preventScroll: true });
+  };
+  botonMenu.addEventListener('click', () => abrirMenu(true));
+  menu.querySelector('.menu__cerrar').addEventListener('click', () => abrirMenu(false));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => abrirMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('abierto')) abrirMenu(false); });
+
+  /* ── Hoy (hora de Venezuela) y cuenta regresiva de la promo de ejemplo ── */
+  const zona = 'America/Caracas';
+  const partes = (d, op) => Object.fromEntries(new Intl.DateTimeFormat('es-VE', { timeZone: zona, ...op }).formatToParts(d).map(x => [x.type, x.value]));
+  function ponerHoy() {
+    const a = partes(new Date(), { weekday: 'long', day: 'numeric', month: 'long' });
+    document.querySelectorAll('[data-hoy]').forEach(el => { el.textContent = `Hoy en tu ciudad · ${a.weekday} ${a.day} de ${a.month}`; });
+    const y = partes(new Date(), { year: 'numeric' }).year;
+    document.querySelectorAll('[data-anio]').forEach(el => { el.textContent = y; });
+  }
+  function ponerCuenta() {
+    const h = partes(new Date(), { hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
+    const min = (+h.hour) * 60 + (+h.minute);
+    const resta = 180 - (min % 180) || 180;          // las relámpago de ejemplo duran tramos de 3 horas
+    const txt = `quedan ${Math.floor(resta / 60)} h ${resta % 60} min`;
+    document.querySelectorAll('[data-cuenta]').forEach(el => { el.textContent = txt; });
+  }
+  ponerHoy(); ponerCuenta();
+  setInterval(ponerCuenta, 30000);
+
+  /* ── Pantallas dibujadas (búsqueda, puntos e invitaciones), en el teléfono fijo y en el de celular ── */
+  document.querySelectorAll('[data-mock]').forEach(el => el.appendChild(document.getElementById('tpl-' + el.dataset.mock).content.cloneNode(true)));
+  // la búsqueda se "escribe" sola, como si alguien estuviera antojado
+  const antojos = ['pizza', 'cachapa', 'shawarma', 'hamburguesa', 'pizza'];
+  let iAntojo = 0;
+  if (!quieto()) setInterval(() => {
+    iAntojo = (iAntojo + 1) % antojos.length;
+    document.querySelectorAll('[data-escribir]').forEach(el => { el.textContent = antojos[iAntojo]; });
+  }, 2600);
+
+  /* ── Recorrido de funciones: el teléfono cambia de pantalla según lo que estés leyendo ── */
+  const funciones = [...document.querySelectorAll('.funcion')];
+  const pantallas = [...document.querySelectorAll('#pantalla > [data-pantalla]')];
+  const vigiaFunciones = new IntersectionObserver(entradas => {
+    entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      const cual = e.target.dataset.pantalla;
+      funciones.forEach(f => f.classList.toggle('activa', f === e.target));
+      pantallas.forEach(s => s.classList.toggle('activa', s.dataset.pantalla === cual));
+    });
+  }, { rootMargin: '-48% 0px -48% 0px' });
+  funciones.forEach(f => vigiaFunciones.observe(f));
+
+  /* ── Antes y después del flyer ── */
+  const comparar = document.getElementById('comparar');
+  const rango = comparar.querySelector('input');
+  const mover = () => comparar.style.setProperty('--corte', rango.value + '%');
+  rango.addEventListener('input', mover);
+  mover();
+
+  /* ── Aparecer al bajar, números que cuentan solos y el video de la dueña ── */
+  const formato = new Intl.NumberFormat('es-VE');
+  function contar(el) {
+    const fin = +el.dataset.contar;
+    if (quieto()) { el.textContent = formato.format(fin); return; }
+    const t0 = performance.now(), dur = 1400;
+    const paso = (t) => {
+      const k = limitar((t - t0) / dur);
+      el.textContent = formato.format(Math.round(fin * salidaCubica(k)));
+      if (k < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  }
+  const vigiaAparece = new IntersectionObserver(entradas => {
+    entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('[data-contar]').forEach(contar);
+      vigiaAparece.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: .08 });
+  document.querySelectorAll('.aparece').forEach(el => vigiaAparece.observe(el));
+
+  const videoDuena = document.getElementById('video-duena');
+  if (videoDuena && !quieto()) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        if (!videoDuena.src && videoDuena.dataset.src) {
+          videoDuena.src = videoDuena.dataset.src;
+          videoDuena.addEventListener('error', () => videoDuena.remove(), { once: true });
+        }
+        videoDuena.play().catch(() => {});
+      } else {
+        videoDuena.pause();
+      }
+    }, { threshold: .25 }).observe(videoDuena);
+  }
+
+  /* ── Pestañas de "Cómo funciona" ── */
+  const pestanas = [...document.querySelectorAll('.pestanas [role="tab"]')];
+  function elegirPestana(boton) {
+    pestanas.forEach(b => {
+      const si = b === boton;
+      b.setAttribute('aria-selected', si ? 'true' : 'false');
+      b.tabIndex = si ? 0 : -1;
+      const panel = document.getElementById(b.getAttribute('aria-controls'));
+      panel.hidden = !si;
+      if (si && !quieto()) panel.querySelectorAll('.paso').forEach((el, i) =>
+        el.animate([{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], { duration: 700, delay: i * 90, easing: curva, fill: 'backwards' }));
+    });
+    dibujarUniones();
+  }
+  pestanas.forEach((b, i) => {
+    b.addEventListener('click', () => elegirPestana(b));
+    b.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const otra = pestanas[(i + (e.key === 'ArrowRight' ? 1 : -1) + pestanas.length) % pestanas.length];
+      elegirPestana(otra); otra.focus();
+    });
+  });
+
+  /* ── Uniones 01 → 02 → 03: se dibujan al bajar, una después de la otra ── */
+  function dibujarUniones() {
+    const panel = document.querySelector('.pasos:not([hidden])');
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const k = quieto() ? 1 : limitar((innerHeight * .85 - r.top) / (innerHeight * .45));
+    const uniones = panel.querySelectorAll('.paso__union');
+    uniones.forEach((u, i) => u.style.setProperty('--k', limitar(k * uniones.length - i).toFixed(3)));
+  }
+  addEventListener('scroll', dibujarUniones, { passive: true });
+  dibujarUniones();
+
+  /* ── Preguntas que abren y cierran suave ── */
+  document.querySelectorAll('.pregunta').forEach(d => {
+    const s = d.querySelector('summary'), c = d.querySelector('.respuesta');
+    s.addEventListener('click', e => {
+      if (quieto() || !c.animate) return;
+      e.preventDefault();
+      if (d.open) {
+        const h = c.offsetHeight;
+        c.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 320, easing: curva }).onfinish = () => { d.open = false; };
+      } else {
+        d.open = true;
+        const h = c.offsetHeight;
+        c.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 420, easing: curva });
+      }
+    });
+  });
+
+  /* ── Por tu bolsillo: cuánto tienen y cuántos son → los combos que les alcanzan (datos de ejemplo) ── */
+  const TASA = { usd: 1, cop: 3180, ves: 1002 };   // tasa de referencia solo para el ejemplo
+  const TOPE = 1000, MAX_PERSONAS = 30;            // de $1 hasta $1.000, y hasta 30 personas
+  const COLOR = { 'Arepera El Pana': '#FF5A1F', 'Burger Barrio': '#FFC43D', 'Pizzería La Plaza': '#FFF4EA', 'Pollos del Táchira': '#7BE0A5', 'Heladería La Nevada': '#A8DCFF', 'Café del Torbes': '#D9A46F', 'Dulcería Mi Abuela': '#F6B3CB', 'Parrilla Los Andes': '#C3B1FF' };
+  // a–b = para cuántas personas alcanza el combo
+  const COMBOS = [
+    { n: 'Pastelito andino y café negro', l: 'Café del Torbes', p: 1, a: 1, b: 1 },
+    { n: 'Cono doble de helado', l: 'Heladería La Nevada', p: 1.5, a: 1, b: 1 },
+    { n: 'Café con leche y pastelito andino', l: 'Café del Torbes', p: 2.5, a: 1, b: 1 },
+    { n: 'Pizza personal (−30 % hoy)', l: 'Pizzería La Plaza', p: 4, a: 1, b: 1 },
+    { n: 'Arepa de pernil con jugo', l: 'Arepera El Pana', p: 4.5, a: 1, b: 1 },
+    { n: 'Combo hamburguesa, papas y refresco', l: 'Burger Barrio', p: 4.8, a: 1, b: 1 },
+    { n: 'Dos copas de helado para compartir', l: 'Heladería La Nevada', p: 5, a: 2, b: 2 },
+    { n: '2×1 en arepas', l: 'Arepera El Pana', p: 6, a: 2, b: 2 },
+    { n: 'Combo pareja: 2 hamburguesas y papas grandes', l: 'Burger Barrio', p: 9.5, a: 2, b: 2 },
+    { n: 'Pizza mediana y 2 refrescos', l: 'Pizzería La Plaza', p: 10, a: 2, b: 3 },
+    { n: 'Pizza familiar y refresco de 2 L', l: 'Pizzería La Plaza', p: 14, a: 3, b: 4 },
+    { n: 'Desayuno familiar: 10 empanadas y 5 jugos', l: 'Arepera El Pana', p: 15, a: 4, b: 5 },
+    { n: 'Combo familiar: pollo entero, papas, ensalada y refresco de 2 L', l: 'Pollos del Táchira', p: 18, a: 4, b: 5 },
+    { n: 'Torta de chocolate para compartir', l: 'Dulcería Mi Abuela', p: 12, a: 6, b: 10 },
+    { n: 'Balde de 16 piezas de pollo y 2 refrescos de 2 L', l: 'Pollos del Táchira', p: 26, a: 6, b: 8 },
+    { n: 'Combo panas: 3 pizzas familiares y 2 refrescos de 2 L', l: 'Pizzería La Plaza', p: 30, a: 7, b: 9 },
+    { n: 'Combo amigos: 8 hamburguesas y 4 papas grandes', l: 'Burger Barrio', p: 34, a: 8, b: 8 },
+    { n: 'Combo fiesta: 2 baldes de pollo y 3 refrescos de 2 L', l: 'Pollos del Táchira', p: 48, a: 10, b: 14 },
+    { n: 'Pasapalos para la fiesta: 100 tequeños, 50 empanaditas y 50 pastelitos', l: 'Café del Torbes', p: 70, a: 15, b: 25 },
+    { n: 'Parrilla para 10: carnes, chorizo, yuca, ensalada y refrescos', l: 'Parrilla Los Andes', p: 85, a: 8, b: 10 },
+  ];
+  const fmtEntero = new Intl.NumberFormat('es-VE', { maximumFractionDigits: 0 });
+  const fmtCentavos = new Intl.NumberFormat('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtCompacto = new Intl.NumberFormat('es', { notation: 'compact', maximumSignificantDigits: 2 });
+  // "local" es lo que tienen en la moneda elegida, tal cual lo escribieron; "usd" es lo mismo en dólares (con tope de $1.000)
+  // "ancla": lo último que la persona puso, en dólares; al cambiar de moneda se convierte desde ahí y no se va corriendo
+  let moneda = 'usd', local = 30, usd = 30, ancla = 30, personas = 5, claveAnterior = '';
+  const conMoneda = (txt, m = moneda) => m === 'usd' ? '$' + txt : m === 'ves' ? 'Bs ' + txt : txt + ' pesos';
+  function numero(x, m = moneda) {
+    if (m !== 'usd') return fmtEntero.format(Math.round(x));
+    const r = Math.round(x * 100) / 100;
+    return Number.isInteger(r) ? fmtEntero.format(r) : fmtCentavos.format(r);
+  }
+  // precios de los combos (en dólares) en la moneda elegida: pesos de 100 en 100 y bolívares de 10 en 10
+  function dinero(v, m = moneda) {
+    if (m === 'cop') return conMoneda(fmtEntero.format(Math.round(v * TASA.cop / 100) * 100), m);
+    if (m === 'ves') return conMoneda(fmtEntero.format(Math.round(v * TASA.ves / 10) * 10), m);
+    return conMoneda(numero(v, 'usd'), 'usd');
+  }
+  const tienen = () => conMoneda(numero(local));                     // lo que escribieron, exacto
+  const enLocal = (d) => conMoneda(numero(d * TASA[moneda]));        // $1 o $1.000 en la moneda elegida
+  const corto = (v) => moneda === 'usd' ? '$' + fmtEntero.format(v) : (moneda === 'ves' ? 'Bs ' : '') + fmtCompacto.format(v * TASA[moneda]);
+  // la barra va de $1 a $1.000 y da más detalle a los montos chicos, que son los de todos los días
+  const POS = 400;
+  const aPosicion = (v) => Math.round(POS * Math.log(limitar(v, 1, TOPE)) / Math.log(TOPE));
+  const dePosicion = (p) => Math.pow(TOPE, p / POS);
+  // montos redondos para la barra: dólares de 0,25 en 0,25 (luego de 1 en 1 y de 5 en 5); pesos y bolívares con 2 cifras
+  function bonito(v, m = moneda) {
+    if (m === 'usd') return v < 10 ? Math.round(v * 4) / 4 : v < 100 ? Math.round(v) : Math.round(v / 5) * 5;
+    const x = v * TASA[m], paso = Math.pow(10, Math.floor(Math.log10(x)) - 1);
+    return limitar(Math.round(x / paso) * paso, TASA[m], TOPE * TASA[m]);
+  }
+  // lee "15.000", "1,000", "7,5", "7.50" o "1.000,50" como lo escribiría cualquiera
+  function leerNumero(s) {
+    s = String(s).replace(/[^\d.,]/g, '');
+    if (!/\d/.test(s)) return null;
+    const ultimo = Math.max(s.lastIndexOf('.'), s.lastIndexOf(','));
+    if (ultimo === -1) return +s;
+    // 3 cifras después del último punto o coma = miles; 1 o 2 = centavos
+    if (s.length - ultimo - 1 === 3) return +s.replace(/[.,]/g, '');
+    return +(s.slice(0, ultimo).replace(/[.,]/g, '') + '.' + s.slice(ultimo + 1));
+  }
+  const iniciales = (local) => { const w = local.split(' '); return (w[0][0] + w[w.length - 1][0]).toUpperCase(); };
+  const gente = (n) => n === 1 ? '1 persona' : n + ' personas';
+  function sugerencias() {
+    const exactos = [], varios = [];
+    for (const c of COMBOS) {
+      if (personas >= c.a && personas <= c.b) { if (c.p <= usd) exactos.push({ ...c, veces: 1, total: c.p }); }
+      else if (personas > c.b) {
+        const veces = Math.ceil(personas / c.b), total = Math.round(c.p * veces * 100) / 100;
+        if (total <= usd) varios.push({ ...c, veces, total });
+      }
+    }
+    exactos.sort((x, y) => y.total - x.total);
+    varios.sort((x, y) => y.total - x.total);
+    return [...exactos, ...varios].slice(0, 4);
+  }
+  const rangoB = document.getElementById('b-rango');
+  const campoB = document.getElementById('b-monto');
+  const equivB = document.getElementById('b-equiv');
+  const listaB = document.getElementById('b-lista');
+  const atajos = [...document.querySelectorAll('.personas button')];
+  const botonesMoneda = [...document.querySelectorAll('.monedas button')];
+  // el campo crece con el número ("ch" = el ancho de una cifra)
+  const ajustarCampo = () => { campoB.style.width = Math.max(1, campoB.value.length) + .25 + 'ch'; };
+  function pintarBolsillo({ deCampo = false, deBarra = false, deMoneda = false } = {}) {
+    const real = local / TASA[moneda];
+    usd = Math.min(real, TOPE);
+    if (!deMoneda) ancla = real;
+    if (!deBarra) rangoB.value = aPosicion(usd);
+    rangoB.style.setProperty('--p', (+rangoB.value / POS * 100).toFixed(2) + '%');
+    rangoB.setAttribute('aria-valuetext', tienen());
+    if (!deCampo) campoB.value = numero(local);
+    ajustarCampo();
+    document.getElementById('b-signo').textContent = moneda === 'usd' ? '$' : moneda === 'ves' ? 'Bs' : '';
+    document.getElementById('b-unidad').textContent = moneda === 'cop' ? 'pesos' : '';
+    const aviso = real > TOPE ? `El tope es ${enLocal(TOPE)}.` : real < 1 ? `Desde ${enLocal(1)} ya salen promos.` : '';
+    equivB.classList.toggle('aviso', !!aviso);
+    equivB.textContent = aviso || (moneda === 'usd' ? 'Escríbelo o mueve la barra' : `≈ ${dinero(usd, 'usd')} con la tasa de referencia`);
+    document.querySelectorAll('#b-escala span').forEach((s, i) => { s.textContent = corto([1, 10, 100, 1000][i]); });
+    document.getElementById('b-personas').textContent = gente(personas);
+    atajos.forEach(b => b.setAttribute('aria-pressed', +b.dataset.personas === personas ? 'true' : 'false'));
+    botonesMoneda.forEach(b => b.setAttribute('aria-checked', b.dataset.moneda === moneda ? 'true' : 'false'));
+    const r = sugerencias();
+    const cuanto = real > TOPE ? enLocal(TOPE) : tienen();
+    document.getElementById('b-resumen').innerHTML = !r.length
+      ? `Con <em>${cuanto}</em> para ${gente(personas)}:`
+      : personas === 1
+        ? `Con <em>${cuanto}</em> te alcanza para:`
+        : `Con <em>${cuanto}</em> para ${gente(personas)} les alcanza para:`;
+    const clave = r.map(c => c.n + c.veces).join('|') + personas;
+    const animar = clave !== claveAnterior; claveAnterior = clave;
+    listaB.innerHTML = r.length ? r.map((c, i) => {
+      const para = c.veces > 1 ? `${c.veces} combos para ${personas}` : `para ${personas === 1 ? 'ti' : personas}`;
+      const sobra = usd - c.total;
+      // con mucha plata, en vez de "sobran $950" se dice sencillo
+      const resto = sobra >= 100 ? (personas > 1 ? 'les sobra bastante' : 'te sobra bastante') : sobra >= .25 ? (personas > 1 ? 'sobran ' : 'te sobran ') + dinero(sobra) : '';
+      const pie = personas > 1 ? `${dinero(c.total / personas)} c/u${resto ? ' · ' + resto : ''}` : (resto || 'justo');
+      return `<li class="sugerencia" style="--i:${i};--c:${COLOR[c.l]};${animar ? '' : 'animation:none'}"><i>${iniciales(c.l)}</i><div><b>${c.n}</b><span>${c.l} · ${para}</span><small>${pie}</small></div><em>${dinero(c.total)}</em></li>`;
+    }).join('') : `<li class="sugerencias__vacio">${real < 1 ? `Desde ${enLocal(1)} ya salen promos. Suban un poquito el monto.` : `Con ${cuanto} para ${gente(personas)} todavía no sale nada. Suban un poquito el monto o prueben con menos personas.`}</li>`;
+  }
+  // la barra: el número queda redondo y el botón se queda donde lo dejaron
+  rangoB.addEventListener('input', () => { local = bonito(dePosicion(+rangoB.value)); pintarBolsillo({ deBarra: true }); });
+  // el campo: se respeta lo que escriben; al salir queda dentro de $1 – $1.000 y con sus puntos de mil
+  campoB.addEventListener('input', () => {
+    const n = leerNumero(campoB.value);
+    ajustarCampo();
+    if (n == null) { equivB.classList.remove('aviso'); equivB.textContent = 'Escribe cuánto tienen'; return; }
+    local = n;
+    pintarBolsillo({ deCampo: true });
+  });
+  campoB.addEventListener('change', () => { local = limitar(local, TASA[moneda], TOPE * TASA[moneda]); pintarBolsillo(); });
+  campoB.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); campoB.blur(); } });
+  // al cambiar de moneda se pasa lo mismo, redondeado hacia arriba (así no se pierde ningún combo)
+  botonesMoneda.forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.moneda === moneda) return;
+    const dolares = limitar(ancla, 1, TOPE);
+    moneda = b.dataset.moneda;
+    const paso = moneda === 'cop' ? 100 : moneda === 'ves' ? 10 : .01;
+    local = Math.round(Math.ceil(dolares * TASA[moneda] / paso - 1e-9) * paso * 100) / 100;
+    pintarBolsillo({ deMoneda: true });
+  }));
+  atajos.forEach(b => b.addEventListener('click', () => { personas = +b.dataset.personas; pintarBolsillo(); }));
+  document.querySelectorAll('.contador button').forEach(b => b.addEventListener('click', () => {
+    personas = limitar(personas + +b.dataset.paso, 1, MAX_PERSONAS); pintarBolsillo();
+  }));
+
+  // "tengo 30 dólares y somos 5": se entiende lo que escribes
+  function entender(texto) {
+    let t = ' ' + texto.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '') + ' ';
+    let quienes = null;
+    const g = t.match(/\b(\d{1,2})\s*(?:personas?|panas|amig[oa]s|chamos|de nosotros)\b/) ||
+      t.match(/\b(?:somos|seremos|vamos)\s+(\d{1,2})\b/) || t.match(/\bpara\s+(\d{1,2})\b(?!\s*(?:mil|\$|dolar|peso|bs|bolivar|lucas))/);
+    if (g) { quienes = +g[1]; t = t.replace(g[0], ' '); }
+    else if (/\b(pareja|novi[ao]|espos[ao]|los dos|nosotros dos)\b/.test(t)) quienes = 2;
+    else if (/\bfamilia\b/.test(t)) quienes = 5;
+    else if (/\b(panas|amig[oa]s|grupo|chamos)\b/.test(t)) quienes = 8;
+    else if (/\b(tengo|solo|sola|para mi)\b/.test(t)) quienes = 1;
+    let m = 'usd';
+    if (/(peso|cop\b|lucas)/.test(t)) m = 'cop';
+    else if (/(\bbs\b|bs\.|bolivar|bolos)/.test(t)) m = 'ves';
+    const n = t.match(/(\d[\d.,]*)\s*(millon(?:es)?\b|mil\b|k\b|lucas\b)?/);
+    let monto = null, porMil = false;
+    if (n) {
+      monto = leerNumero(n[1]);
+      if (n[2]) { monto *= /^millon/.test(n[2]) ? 1e6 : 1e3; porMil = true; }
+    } else if (/\bun millon\b/.test(t)) { monto = 1e6; porMil = true; }
+    // "50 mil" sin decir la moneda: aquí casi siempre son pesos
+    if (porMil && m === 'usd' && !/(\$|dolar|usd|verdes)/.test(t)) m = 'cop';
+    return { monto, m, quienes };
+  }
+  const entendi = document.getElementById('entendi');
+  function buscarTexto(texto) {
+    const r = entender(texto);
+    if (r.monto == null) { entendi.textContent = 'Escribe cuánto tienen, por ejemplo: tengo 20 dólares y somos 2.'; return; }
+    moneda = r.m;
+    // se respeta el monto exacto que escribieron, dentro de $1 – $1.000
+    const enDolares = r.monto / TASA[r.m];
+    local = limitar(r.monto, TASA[r.m], TOPE * TASA[r.m]);
+    if (r.quienes) personas = limitar(r.quienes, 1, MAX_PERSONAS);
+    pintarBolsillo();
+    const ajuste = (enDolares > TOPE ? ` El tope es ${enLocal(TOPE)}.` : enDolares < 1 ? ` Lo mínimo es ${enLocal(1)}.` : '') +
+      (r.quienes > MAX_PERSONAS ? ` Por ahora, hasta ${MAX_PERSONAS} personas.` : '');
+    entendi.textContent = `Entendí: ${tienen()} para ${gente(personas)}.${ajuste}`;
+  }
+  document.getElementById('escribe').addEventListener('submit', e => { e.preventDefault(); buscarTexto(document.getElementById('escribe-texto').value); });
+  document.querySelectorAll('.ejemplos button').forEach(b => b.addEventListener('click', () => {
+    document.getElementById('escribe-texto').value = b.textContent;
+    buscarTexto(b.textContent);
+  }));
+  pintarBolsillo();
+
+  /* ── Formulario: arma el mensaje y abre WhatsApp (o el correo) ── */
+  const form = document.getElementById('formulario');
+  const campoLocal = document.getElementById('campo-local');
+  form.querySelectorAll('input[name="tipo"]').forEach(r => r.addEventListener('change', () => {
+    campoLocal.hidden = form.tipo.value !== 'negocio';
+  }));
+  function leerFormulario() {
+    let bien = true;
+    const revisar = (campo, error, texto) => {
+      const vacio = !campo.value.trim();
+      campo.setAttribute('aria-invalid', vacio ? 'true' : 'false');
+      document.getElementById(error).textContent = vacio ? texto : '';
+      if (vacio && bien) { campo.focus(); bien = false; }
+    };
+    revisar(form.nombre, 'e-nombre', 'Escribe tu nombre, porfa.');
+    revisar(form.mensaje, 'e-mensaje', 'Cuéntanos en qué te ayudamos.');
+    if (!bien) return null;
+    const negocio = form.tipo.value === 'negocio';
+    const local = form.local.value.trim();
+    return `¡Hola, PromoYa! 👋 Soy ${form.nombre.value.trim()}${negocio ? (local ? `, del local «${local}»` : ', tengo un local') : ''}.\n\n${form.mensaje.value.trim()}`;
+  }
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const texto = leerFormulario();
+    if (texto) window.open('https://wa.me/584247481963?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+  });
+  document.getElementById('por-correo').addEventListener('click', () => {
+    const texto = leerFormulario();
+    if (texto) location.href = 'mailto:hola@promoya.app?subject=' + encodeURIComponent('Mensaje desde la página de PromoYa') + '&body=' + encodeURIComponent(texto);
+  });
+
+  /* ── Cupos de fundador en vivo (solo responde desde promoya.app; si no, queda el texto fijo) ── */
+  fetch('https://app.promoya.app/api/oferta', { mode: 'cors' })
+    .then(r => r.ok ? r.json() : null)
+    .then(o => {
+      if (!o || !o.cupos) return;
+      const usados = o.usados ?? (o.cupos - o.quedan);
+      document.getElementById('cupos-barra').style.setProperty('--lleno', limitar(usados / o.cupos) * 100 + '%');
+      document.getElementById('cupos-texto').textContent = o.quedan > 0
+        ? `Quedan ${o.quedan} de ${o.cupos} cupos · ${usados} ya tomados`
+        : 'Los cupos de fundador ya se llenaron';
+    })
+    .catch(() => {});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# configuración local del editor
+.claude/
+# capturas de vista previa (no son parte de la página)
+vista-*.jpg
