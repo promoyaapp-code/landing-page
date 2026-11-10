@@ -1,4 +1,5 @@
 # configuración local del editor
-.claude/
+.claude/*
+!.claude/skills/
 # capturas de vista previa (no son parte de la página)
 vista-*.jpg
