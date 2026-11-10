@@ -1,0 +1,9 @@
+{
+  "name": "promoya-landing",
+  "compatibility_date": "2026-11-01",
+  "account_id": "dcb223c785de094468192fe731473b6b",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
