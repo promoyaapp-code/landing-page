@@ -728,7 +728,8 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
 [data-so="android"] .descarga__qr,[data-so="ios"] .descarga__qr{display:none}
 /* lista de espera (reemplaza la descarga mientras las apps no estén en las tiendas) */
 .descarga.lista{grid-template-columns:auto minmax(0,1fr)}
-.lista__form{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;max-width:760px;align-items:start}
+.lista__sub{margin:26px 0 0;font:900 15px/1.2 var(--f-texto);letter-spacing:.02em;color:var(--tinta)}
+.lista__form{margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;max-width:760px;align-items:start}
 .lista__tipo{grid-column:1/-1;border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
 .lista__tipo label{cursor:pointer}
 .lista__tipo input{position:absolute;opacity:0;pointer-events:none}
@@ -786,7 +787,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
   {"@type":"Question","name":"¿Cuánto me cuesta la app?","acceptedAnswer":{"@type":"Answer","text":"Nada. PromoYa es gratis. Solo pagas lo que comes, directo en el local, en dólares, pesos o bolívares."}},
   {"@type":"Question","name":"¿Cómo uso una promo?","acceptedAnswer":{"@type":"Answer","text":"Eliges la promo y tocas «Quiero esta promo»: te damos un código. Lo muestras en caja o pides por WhatsApp con el mensaje ya escrito, y pagas en el local, como siempre."}},
   {"@type":"Question","name":"¿Cómo gano puntos y para qué sirven?","acceptedAnswer":{"@type":"Answer","text":"Ganas 20 puntos de bienvenida al registrarte, 10 cada vez que usas una promo (y más mientras más gastas) y 10 por cada pana que invites, cuando use su primera promo. Con tus puntos subes de nivel: Panita con 500, Comelón con 1.000 y Leyenda con 1.500. Panita y Comelón te dan créditos para pagar menos en tus promos, y siendo Leyenda los locales te tienen promos de fidelidad."}},
-  {"@type":"Question","name":"¿Funciona en mi teléfono?","acceptedAnswer":{"@type":"Answer","text":"Sí, para Android y iPhone. Estamos por publicarla en Google Play y en la App Store: anótate en la lista de espera y te avisamos primero."}}
+  {"@type":"Question","name":"¿Funciona en mi teléfono?","acceptedAnswer":{"@type":"Answer","text":"Sí. Ya está en la App Store para iPhone, y para Android estamos terminando: anótate en la lista de espera y te avisamos primero."}}
  ]}
 ]}
 </script>
@@ -828,7 +829,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
     <a href="#preguntas">Preguntas</a>
     <a href="#contacto">Contacto</a>
   </nav>
-  <a class="btn btn--naranja nav__cta" href="#lista-espera">Únete a la lista</a>
+  <a class="btn btn--naranja nav__cta" href="#lista-espera">Descargar la app</a>
   <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir el menú"><svg><use href="#i-menu"/></svg></button>
 </header>
 
@@ -844,7 +845,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
     <a href="#contacto">Contacto</a>
   </nav>
   <div class="menu__pie">
-    <a class="btn btn--naranja" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Únete a la lista</a>
+    <a class="btn btn--naranja" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Descargar la app</a>
     <a class="btn btn--borde" href="https://app.promoya.app/register/business">Tengo un negocio</a>
   </div>
 </div>
@@ -909,7 +910,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
       <p class="hero__lead">Todas las promos de comida de tu ciudad en <em>una sola app</em>.</p>
       <p class="hero__sub">Combos, 2×1 y descuentos de hoy, con la carta de cada local. Sin buscar en Instagram.</p>
       <div class="hero__botones">
-        <a class="btn btn--naranja" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Únete a la lista</a>
+        <a class="btn btn--naranja" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Descargar la app</a>
         <a class="btn btn--borde" href="#negocios">Tengo un negocio</a>
       </div>
     </div>
@@ -1368,7 +1369,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
     </div>
 
     <div class="como-cta aparece">
-      <a class="btn btn--tinta" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Únete a la lista</a>
+      <a class="btn btn--tinta" href="#lista-espera"><svg><use href="#i-flecha"/></svg>Descargar la app</a>
       <a class="btn btn--borde" href="https://app.promoya.app/register/business">Registrar mi negocio</a>
     </div>
   </div>
@@ -1391,7 +1392,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
       <details class="pregunta"><summary>¿Cuánto me cuesta la app?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Nada. PromoYa es gratis. Solo pagas lo que comes, directo en el local, en dólares, pesos o bolívares.</p></div></details>
       <details class="pregunta"><summary>¿Cómo uso una promo?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Eliges la promo y tocas «Quiero esta promo»: te damos un código. Lo muestras en caja o pides por WhatsApp con el mensaje ya escrito, y pagas en el local, como siempre.</p></div></details>
       <details class="pregunta"><summary>¿Cómo gano puntos y para qué sirven?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Ganas 20 puntos de bienvenida al registrarte, 10 cada vez que usas una promo (y más mientras más gastas) y 10 por cada pana que invites, cuando use su primera promo. Con tus puntos subes de nivel: Panita con 500, Comelón con 1.000 y Leyenda con 1.500. Panita y Comelón te dan créditos para pagar menos en tus promos, y siendo Leyenda los locales te tienen promos de fidelidad. <a href="#premios">Mira cómo funciona</a>.</p></div></details>
-      <details class="pregunta"><summary>¿Funciona en mi teléfono?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Sí, para Android y iPhone. Estamos por publicarla en Google Play y en la App Store: anótate en la lista de espera y te avisamos primero.</p></div></details>
+      <details class="pregunta"><summary>¿Funciona en mi teléfono?<i aria-hidden="true"><svg><use href="#i-mas"/></svg></i></summary><div class="respuesta"><p>Sí. Ya está en la App Store para iPhone, y para Android estamos terminando: anótate en la lista de espera y te avisamos primero.</p></div></details>
     </div>
   </div>
 </section>
@@ -1452,7 +1453,11 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
       <img class="descarga__icono" src="assets/marca/icono-192.png" alt="Ícono de la app PromoYa" width="192" height="192" loading="lazy">
       <div>
         <h3>Sé de los primeros en usar PromoYa</h3>
-        <p>La app está por salir en Google Play y en la App Store. Déjanos tus datos y te avisamos apenas esté lista para descargar.</p>
+        <p>Ya está en la App Store para iPhone. Para Android estamos terminando: déjanos tus datos y te avisamos apenas esté lista.</p>
+        <div class="descarga__botones">
+          <a class="btn btn--tinta" href="https://apps.apple.com/co/app/promoya/id6834196044?l=en-GB" target="_blank" rel="noopener"><svg><use href="#i-apple"/></svg>Descargar en la App Store</a>
+        </div>
+        <h4 class="lista__sub">¿Tienes Android? Únete a la lista de espera</h4>
         <form class="lista__form" id="lista" novalidate>
           <fieldset class="lista__tipo">
             <legend class="sr-only">Para qué te anotas</legend>
@@ -1477,7 +1482,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
           <button class="btn btn--tinta" type="submit" id="lista-enviar"><svg><use href="#i-flecha"/></svg>Anotarme</button>
           <p class="lista__estado" id="lista-estado" role="status" aria-live="polite"></p>
         </form>
-        <small>Solo te escribimos para avisarte del lanzamiento. Gratis y sin compromiso.</small>
+        <small>Solo te escribimos para avisarte del lanzamiento en Android. Gratis y sin compromiso.</small>
       </div>
       <!-- Descarga directa: se reactiva cuando las apps estén publicadas.
       <div class="descarga__botones">
@@ -2228,7 +2233,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
       campo.setAttribute('aria-invalid', texto ? 'true' : 'false');
       return !texto;
     };
-    const wa = '<a href="https://wa.me/584147033110?text=%C2%A1Hola%2C%20PromoYa!%20Quiero%20anotarme%20en%20la%20lista%20de%20espera." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>';
+    const wa = '<a href="https://wa.me/584147033110?text=%C2%A1Hola%2C%20PromoYa!%20Quiero%20anotarme%20en%20la%20lista%20de%20espera%20de%20Android." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>';
     f.addEventListener('submit', async e => {
       e.preventDefault();
       estado.textContent = '';
@@ -2260,7 +2265,7 @@ fieldset.campo{border:0;padding:0;margin-inline:0}
         if (r.status === 204 || r.ok) {
           f.querySelectorAll('input,button').forEach(c => { c.disabled = true; });
           estado.setAttribute('data-ok', '');
-          estado.textContent = `¡Listo, ${nombre.split(/\s+/)[0]}! Te avisamos apenas PromoYa esté en las tiendas.`;
+          estado.textContent = `¡Listo, ${nombre.split(/\s+/)[0]}! Te avisamos apenas PromoYa esté lista para Android.`;
           return;
         }
         if (r.status === 429) estado.textContent = 'Muchos intentos seguidos. Espera un minuto y vuelve a probar.';
